@@ -76,8 +76,7 @@ export default function Hero() {
               aria-label="Enter your email address"
               placeholder="Your email address"
               inputProps={{
-                autocomplete: "off",
-                ariaLabel: "Enter your email address",
+                autoComplete: "off",
               }}
             />
             <Button variant="contained" color="primary">
@@ -108,7 +107,7 @@ export default function Hero() {
                 ? 'url("/static/images/templates/templates-images/hero-light.png")'
                 : 'url("/static/images/templates/templates-images/hero-dark.png")',
             backgroundSize: "cover",
-            borderRadius: "10px",
+
             outline: "1px solid",
             outlineColor:
               theme.palette.mode === "light"

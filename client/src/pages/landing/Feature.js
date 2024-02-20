@@ -12,6 +12,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import EdgesensorHighRoundedIcon from "@mui/icons-material/EdgesensorHighRounded";
 import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
+import carImage from "../../assets/images/car.png"; // a
 
 const items = [
   {
@@ -277,11 +278,9 @@ export default function Features() {
                 m: "auto",
                 width: 420,
                 height: 500,
-                backgroundSize: "contain",
-                backgroundImage: (theme) =>
-                  theme.palette.mode === "light"
-                    ? items[selectedItemIndex].imageLight
-                    : items[selectedItemIndex].imageDark,
+                backgroundSize: "100% 100%",
+                backgroundImage: `url(${carImage})`,
+                backgroundRepeat: "no-repeat",
               }}
             />
           </Card>

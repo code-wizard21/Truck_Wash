@@ -10,7 +10,6 @@ export default function Footer() {
   return (
     <Box
       component="footer"
-      marginTop={20}
       sx={{
         backgroundColor: (theme) =>
           theme.palette.mode === "light"
@@ -35,13 +34,13 @@ export default function Footer() {
               Contact Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              123 Main Street, Anytown, USA
+              625 McDonald St Regina, SK S4N 4X1,
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: info@example.com
+              Email: qctruckwash.ca
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Phone: +1 234 567 8901
+              Phone: (306) 529.6419
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -63,16 +62,7 @@ export default function Footer() {
             </Link>
           </Grid>
         </Grid>
-        <Box mt={5}>
-          <Typography variant="body2" color="text.secondary" align="center">
-            {"Copyright © "}
-            <Link color="inherit" href="https://your-website.com/">
-              Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-          </Typography>
-        </Box>
+   
       </Container>
     </Box>
   );
