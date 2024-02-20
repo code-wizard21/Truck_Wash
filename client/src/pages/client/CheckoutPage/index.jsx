@@ -1,79 +1,37 @@
 import React, { useState } from "react";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  CircularProgress,
-} from "@material-ui/core";
-import { Formik, Form } from "formik";
-import Alert from "@mui/material/Alert";
-import AddressForm from "./Forms/AddressForm";
-import PaymentForm from "./Forms/PaymentForm";
-import ReviewOrder from "./Forms/ReviewOrder";
-import CheckoutSuccess from "./CheckoutSuccess";
-
-import validationSchema from "./FormModel/validationSchema";
-import checkoutFormModel from "./FormModel/checkoutFormModel";
-import formInitialValues from "./FormModel/formInitialValues";
+import SendIcon from "@mui/icons-material/Send";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import {
   Box,
   Container,
-  Stack,
+  Button,
+  TextField,
   Typography,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
-
-import useStyles from "./styles";
-
-const steps = ["task", "time", "Review your order"];
-const { formId, formField } = checkoutFormModel;
-
-function _renderStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm formField={formField} />;
-    case 1:
-      return <PaymentForm formField={formField} />;
-    case 2:
-      return <ReviewOrder />;
-    default:
-      return <div>Not Found</div>;
-  }
-}
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 
 function CheckoutPage() {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
-  const currentValidationSchema = validationSchema[activeStep];
-  const isLastStep = activeStep === steps.length - 1;
+  const [companyName, setCompanyName] = useState("");
+  const [trackCode, setTrackCode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
+  const [date, setDate] = useState(null);
+  const navigate = useNavigate();
 
-  function _sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  async function _submitForm(values, actions) {
-    await _sleep(1000);
-    <Alert severity="success">This is a success Alert.</Alert>;
-    actions.setSubmitting(false);
-
-    setActiveStep(activeStep + 1);
-  }
-
-  function _handleSubmit(values, actions) {
-    if (isLastStep) {
-      _submitForm(values, actions);
+  const validate = () => {
+    if (!companyName || !trackCode || !phoneNumber) {
+      setShowErrors(true);
+      console.log(trackCode);
     } else {
-      setActiveStep(activeStep + 1);
-      actions.setTouched({});
-      actions.setSubmitting(false);
+      setShowErrors(false);
+      navigate("/client/dashboard");
     }
-  }
-
-  function _handleBack() {
-    setActiveStep(activeStep - 1);
-  }
-
+  };
   return (
     <Box
       component="main"
@@ -84,57 +42,72 @@ function CheckoutPage() {
     >
       <Container maxWidth="lg">
         <Typography component="h1" variant="h4" align="center">
-          Checkout
+          Request Task
         </Typography>
-        <Stepper activeStep={activeStep} className={classes.stepper}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <React.Fragment>
-          {activeStep === steps.length ? (
-            <CheckoutSuccess />
-          ) : (
-            <Formik
-              initialValues={formInitialValues}
-              validationSchema={currentValidationSchema}
-              onSubmit={_handleSubmit}
-            >
-              {({ isSubmitting }) => (
-                <Form id={formId}>
-                  {_renderStepContent(activeStep)}
 
-                  <div className={classes.buttons}>
-                    {activeStep !== 0 && (
-                      <Button onClick={_handleBack} className={classes.button}>
-                        Back
-                      </Button>
-                    )}
-                    <div className={classes.wrapper}>
-                      <Button
-                        disabled={isSubmitting}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                      >
-                        {isLastStep ? "Place order" : "Next"}
-                      </Button>
-                      {isSubmitting && (
-                        <CircularProgress
-                          size={24}
-                          className={classes.buttonProgress}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          )}
-        </React.Fragment>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              error={!companyName && showErrors}
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              id="standard-basic"
+              name="cname"
+              label="Company Name"
+              variant="standard"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              error={!trackCode && showErrors}
+              value={trackCode}
+              onChange={(e) => setTrackCode(e.target.value)}
+              id="standard-basic"
+              name="carcode"
+              label="Track Code"
+              variant="standard"
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              error={!phoneNumber && showErrors}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              name="pnumber"
+              label="Company Phone Number"
+              id="standard-basic"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name="tell"
+              label="Tell us the details of your task"
+              multiline
+              id="standard-basic"
+              minRows={2}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoItem label="Controlled calendar">
+                <DateCalendar
+                  value={date}
+                  onChange={(newValue) => setDate(dayjs(newValue))}
+                />
+              </DemoItem>
+            </LocalizationProvider>
+          </Grid>
+        </Grid>
+        <Box display="flex" justifyContent="right" m={1} p={1}>
+          <Button variant="contained" endIcon={<SendIcon />} onClick={validate}>
+            Send
+          </Button>
+        </Box>
       </Container>
     </Box>
   );

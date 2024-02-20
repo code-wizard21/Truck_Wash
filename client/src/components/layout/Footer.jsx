@@ -1,45 +1,79 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
-import FacebookIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/X";
-
-const logoStyle = {
-  width: "140px",
-  height: "auto",
-};
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" mt={1}>
-      {"Copyright © "}
-      <Link href="https://mui.com/">Sitemark&nbsp;</Link>
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import { Facebook, Instagram, Twitter } from "@mui/icons-material";
+import { Box } from "@mui/material";
 
 export default function Footer() {
   return (
-    <Container
+    <Box
+      component="footer"
+      marginTop={20}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: { xs: 4, sm: 8 },
-        py: { xs: 8, sm: 10 },
-        textAlign: { sm: "center", md: "left" },
+        backgroundColor: (theme) =>
+          theme.palette.mode === "light"
+            ? theme.palette.grey[200]
+            : theme.palette.grey[800],
+        p: 6,
       }}
     >
-    
-    </Container>
+      <Container maxWidth="lg">
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              About Us
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              We are XYZ company, dedicated to providing the best service to our
+              customers.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              Contact Us
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              123 Main Street, Anytown, USA
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Email: info@example.com
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Phone: +1 234 567 8901
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              Follow Us
+            </Typography>
+            <Link href="https://www.facebook.com/" color="inherit">
+              <Facebook />
+            </Link>
+            <Link
+              href="https://www.instagram.com/"
+              color="inherit"
+              sx={{ pl: 1, pr: 1 }}
+            >
+              <Instagram />
+            </Link>
+            <Link href="https://www.twitter.com/" color="inherit">
+              <Twitter />
+            </Link>
+          </Grid>
+        </Grid>
+        <Box mt={5}>
+          <Typography variant="body2" color="text.secondary" align="center">
+            {"Copyright © "}
+            <Link color="inherit" href="https://your-website.com/">
+              Your Website
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
   );
 }
