@@ -3,6 +3,7 @@ import { lazy } from "react";
 const Dashboard = lazy(() => import("../pages/client/dashboard"));
 const Login = lazy(() => import("../components/auth/Login"));
 const CheckTask = lazy(() => import("../pages/client/CheckoutPage"));
+const DriverTask = lazy(() => import("../pages/driver/index"));
 
 export const ROUTES_CONSTANTS = [
   {
@@ -10,8 +11,12 @@ export const ROUTES_CONSTANTS = [
     element: <Dashboard />,
   },
   {
+    path: "/driver/checktask",
+    element: <DriverTask />,
+  },
+  {
     path: "/client/checktask",
-    element: <CheckTask />,
+    element: <DriverTask />,
   },
 
   {

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
-import { Box, Container ,CircularProgress, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { CircularProgress, Typography } from "@material-ui/core";
+import {createMuiTheme } from "@material-ui/core/styles";
+import IconButton from '@mui/material/IconButton';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const api = axios.create({
   baseURL: `http://localhost:5000/api`,
 });
-
+const theme = createMuiTheme();
 const App = () => {
   const [state, setState] = useState({
     page: 1,
@@ -23,7 +26,6 @@ const App = () => {
   useEffect(() => {
     getData();
   }, []);
-
   const getDateSrc = () => {
     return [
       {
@@ -35,7 +37,7 @@ const App = () => {
         totalRecords: 14,
         nextPage: null,
         previousPage: null,
-        data: [
+          data: [
           {
             id: 3,
             name: "Lenovo_Yoga11",
@@ -122,11 +124,11 @@ const App = () => {
       count: getDateSrc()[0].totalRecords,
     });
   };
-
   const columns = [
+    { name: "id", label: "NO", width: 70 },
     {
       name: "name",
-      label: "Name",
+      label: "Company Name",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
@@ -147,12 +149,12 @@ const App = () => {
     {
       name: "description",
       label: "Description",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].description}</span>;
-        },
-      },
+      // options: {
+      //   filter: true,
+      //   customBodyRenderLite: (dataIndex) => {
+      //     return <span>{this.state.data[dataIndex].description}</span>;
+      //   },
+      // },
     },
     {
       name: "status",
@@ -163,20 +165,21 @@ const App = () => {
           const state = data[dataIndex].status;
           if (state === "Accept") {
             return (
-              <div className="operating">
+              <div className="accept">
                 <span>{state}</span>
               </div>
             );
           }
-          if (state === "Finish") {
+           if (state === "Finish") {
             return (
               <div className="finish">
                 <span>{state}</span>
               </div>
             );
-          } else {
+          } 
+          else {
             return (
-              <div className="maintenance">
+              <div className="requestclean">
                 <span>{state}</span>
               </div>
             );
@@ -204,8 +207,23 @@ const App = () => {
         },
       },
     },
+    {
+      name: "action",
+      label: "Action",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          return (
+            <span>
+              <IconButton color="red" aria-label="add an alarm">
+                <CancelIcon />
+              </IconButton>
+            </span>
+          );
+        },
+      },
+    },
   ];
-
   const { data, count, isLoading, rowsPerpage } = state;
   const options = {
     filter: true,
@@ -239,7 +257,7 @@ const App = () => {
       // }
     },
   };
-
+  // ... Rest of your code ...
   return (
     <Box
       component="main"

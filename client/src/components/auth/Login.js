@@ -12,18 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
-function MadeWithLove() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Built with love by the "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Material-UI
-      </Link>
-      {" team."}
-    </Typography>
-  );
-}
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -52,7 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  const navigate = useNavigate();
+  const handleChange = () => {
+    navigate("/driver/checktask");
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -95,6 +87,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleChange}
           >
             Sign Up
           </Button>

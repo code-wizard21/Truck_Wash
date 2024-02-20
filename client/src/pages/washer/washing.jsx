@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
-import "./style.css";
-import { Box, Container ,CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Container
+} from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from "axios";
 import MUIDataTable from "mui-datatables";
+import { CircularProgress, Typography } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
+import "./style.css";
 
 const api = axios.create({
   baseURL: `http://localhost:5000/api`,
 });
-
+const theme = createMuiTheme();
 const App = () => {
   const [state, setState] = useState({
     page: 1,
@@ -20,6 +26,7 @@ const App = () => {
     editData: [],
     equipment: [],
   });
+
   useEffect(() => {
     getData();
   }, []);
@@ -36,73 +43,34 @@ const App = () => {
         nextPage: null,
         previousPage: null,
         data: [
+         
           {
-            id: 3,
-            name: "Lenovo_Yoga11",
-            location: "Rue Neuve 123, 1000 Bruxelles",
-            description: "Lenovo Yoga S940",
-            picturePath: null,
-            status: "Waiting",
-            dateAdded: "2020-09-01T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 7,
-            name: "Toshiba_Satellite11",
-            location: "Boulevard Lambermont 1, 1000 Bruxelles",
-            description: "Toshiba Satellite C55-B5300 16-Inch Laptop",
-            picturePath: null,
-            status: "Waiting",
-            dateAdded: "2020-08-19T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 5,
-            name: "Toshib_Satellite y11",
-            location: "Chaussée d'Ixelles 84/86, 1050 Ixelles",
-            description: "Toshiba Satellite S55-C5274 15.6 Inch",
-            picturePath: null,
-            status: "Accept",
-            dateAdded: "2020-08-05T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 4,
-            name: "Lenovo_Ideapad11",
-            location: "Boulevard Sylvain Dupuis 433, 1070 Anderlecht",
-            description: "Lenovo Ideapad 330-15ARR",
-            picturePath: null,
-            status: "Accept",
-            dateAdded: "2020-08-02T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 2,
+            id: 1,
             name: "Lenovo_Legion11",
             location: "Chaussée de Louvain 610, 1030 Schaerbeek",
             description: "Lenovo Legion Y740 (81UH006YIN)",
             picturePath: null,
-            status: "Finish",
+            status: "Finished washing",
             dateAdded: "2020-08-01T00:00:00",
             maintenances: [],
           },
           {
-            id: 6,
+            id: 2,
             name: "TOSHIBA_Laptop11",
             location: "Rue Saint-Lambert 200, 1200 Woluwe-Saint-Lambert",
             description: "TOSHIBA Laptop Tecra A50-01R01S Intel Core i7",
             picturePath: null,
-            status: "Finish",
+            status: "Finished washing",
             dateAdded: "2020-07-01T00:00:00",
             maintenances: [],
           },
           {
-            id: 1,
+            id: 3,
             name: "Lenovo_IdeaPad_Slim_311",
             location: "Berchem-Sainte-Agathe",
             description: null,
             picturePath: null,
-            status: "Finish",
+            status: "Finished washing",
             dateAdded: null,
             maintenances: [],
           },
@@ -111,6 +79,7 @@ const App = () => {
         errors: null,
         message: null,
       },
+   
     ];
   };
   const getData = () => {
@@ -122,8 +91,8 @@ const App = () => {
       count: getDateSrc()[0].totalRecords,
     });
   };
-
   const columns = [
+      { name: "id", label: "NO", width: 70 },
     {
       name: "name",
       label: "Name",
@@ -161,28 +130,15 @@ const App = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           const state = data[dataIndex].status;
-          if (state === "Accept") {
-            return (
-              <div className="operating">
-                <span>{state}</span>
-              </div>
-            );
-          }
-          if (state === "Finish") {
+      
             return (
               <div className="finish">
                 <span>{state}</span>
               </div>
-            );
-          } else {
-            return (
-              <div className="maintenance">
-                <span>{state}</span>
-              </div>
-            );
+            );        
           }
         },
-      },
+      
     },
     {
       name: "pnumber",
@@ -204,8 +160,23 @@ const App = () => {
         },
       },
     },
+     {
+      name: "Action",
+      label: "Action",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          return (
+            <span>
+              <IconButton color="secondary" aria-label="add an alarm">
+                <CheckCircleIcon />
+              </IconButton>
+            </span>
+          );
+        },
+      },
+    },
   ];
-
   const { data, count, isLoading, rowsPerpage } = state;
   const options = {
     filter: true,
@@ -239,7 +210,7 @@ const App = () => {
       // }
     },
   };
-
+  // ... Rest of your code ...
   return (
     <Box
       component="main"

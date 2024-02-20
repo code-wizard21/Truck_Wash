@@ -1,30 +1,24 @@
 import React, { useState } from "react";
-
-import { TextField } from "@material-ui/core";
-import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
-
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import {
   Box,
   Container,
-  Stack,
+  Button,
+  TextField,
   Typography,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
-
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-const steps = ["task", "time", "Review your order"];
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 
 function CheckoutPage() {
   const [companyName, setCompanyName] = useState("");
   const [trackCode, setTrackCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [details, setDetails] = useState("");
   const [showErrors, setShowErrors] = useState(false);
   const [date, setDate] = useState(null);
   const navigate = useNavigate();
