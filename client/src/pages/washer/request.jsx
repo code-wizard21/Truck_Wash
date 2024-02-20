@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { CircularProgress, Typography } from "@material-ui/core";
+import { CircularProgress, Typography, Grid } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import IconButton from '@mui/material/IconButton';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import IconButton from "@mui/material/IconButton";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import "./style.css";
 
 const api = axios.create({
@@ -152,11 +154,22 @@ const App = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           return (
-            <span>
-              <IconButton color="secondary" aria-label="add an alarm">
-                <CheckCircleIcon />
-              </IconButton>
-            </span>
+            <Grid container direction="row">
+              <Grid item>
+                <IconButton
+                  sx={{ color: "green" }}
+                  size="large"
+                  aria-label="add an alarm"
+                >
+                  <CheckBoxIcon />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton sx={{ color: "red" }} aria-label="add an alarm">
+                  <ClearIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
           );
         },
       },
@@ -201,28 +214,27 @@ const App = () => {
   return (
     <Box
       component="main"
-       sx={{
-    flexGrow: 1,
-    py: { xs: 2, md: 8 },
-  }}
+      sx={{
+        flexGrow: 1,
+        py: { xs: 2, md: 8 },
+      }}
     >
-        <MUIDataTable
-          title={
-            <Typography variant="h6">
-              List of Task
-              {isLoading && (
-                <CircularProgress
-                  size={24}
-                  style={{ marginLeft: 15, position: "relative", top: 4 }}
-                />
-              )}
-            </Typography>
-          }
-          data={data}
-          columns={columns}
-          options={options}
-        />
-   
+      <MUIDataTable
+        title={
+          <Typography variant="h6">
+            List of Task
+            {isLoading && (
+              <CircularProgress
+                size={24}
+                style={{ marginLeft: 15, position: "relative", top: 4 }}
+              />
+            )}
+          </Typography>
+        }
+        data={data}
+        columns={columns}
+        options={options}
+      />
     </Box>
   );
 };
