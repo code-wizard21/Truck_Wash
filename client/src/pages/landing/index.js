@@ -8,17 +8,10 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import SvgMaterialDesign from "docs/src/icons/SvgMaterialDesign";
-import AppAppBar from "./components/AppAppBar";
-import Hero from "./components/Hero";
-import LogoCollection from "./components/LogoCollection";
-import Highlights from "./components/Highlights";
-import Pricing from "./components/Pricing";
-import Features from "./components/Features";
-import Testimonials from "./components/Testimonials";
-import FAQ from "./components/FAQ";
-import Footer from "./components/Footer";
-import getLPTheme from "./getLPTheme";
+
+import Hero from "./Hero";
+import Highlights from "./Highlights";
+import Features from "./Feature";
 
 const defaultTheme = createTheme({});
 
@@ -51,10 +44,6 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
           <AutoAwesomeRoundedIcon sx={{ fontSize: "20px", mr: 1 }} />
           Custom theme
         </ToggleButton>
-        <ToggleButton value={false}>
-          <SvgMaterialDesign sx={{ fontSize: "20px", mr: 1 }} />
-          Material Design
-        </ToggleButton>
       </ToggleButtonGroup>
     </Box>
   );
@@ -70,7 +59,6 @@ ToggleCustomTheme.propTypes = {
 export default function LandingPage() {
   const [mode, setMode] = React.useState("dark");
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  const LPtheme = createTheme(getLPTheme(mode));
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -81,26 +69,19 @@ export default function LandingPage() {
   };
 
   return (
-    <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
       <Hero />
       <Box sx={{ bgcolor: "background.default" }}>
         <Features />
         <Divider />
-        <Testimonials />
+
         <Divider />
         <Highlights />
         <Divider />
-        <Pricing />
+
         <Divider />
-        <Divider />
-        <Footer />
       </Box>
-      <ToggleCustomTheme
-        showCustomTheme={showCustomTheme}
-        toggleCustomTheme={toggleCustomTheme}
-      />
     </ThemeProvider>
   );
 }

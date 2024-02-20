@@ -28,7 +28,7 @@ export default function LabTabs() {
               <Tab label="Requesting Truck" value="1" />
               <Tab label="Accepting Truck" value="2" />
               <Tab label="Wasing Up Truck" value="3" />
-              <Tab label="My Plan" value="4" />
+             
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -40,9 +40,7 @@ export default function LabTabs() {
           <TabPanel value="3">
             <Washing />
           </TabPanel>
-          <TabPanel value="4">
-            <MyPlan />
-          </TabPanel>
+
         </TabContext>
       </Container>
     </Box>
