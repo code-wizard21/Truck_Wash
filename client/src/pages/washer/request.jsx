@@ -48,7 +48,7 @@ const App = () => {
             location: "Rue Neuve 123, 1000 Bruxelles",
             description: "Lenovo Yoga S940",
             picturePath: null,
-            status: "Request Cleaning",
+            status: "Requested",
             dateAdded: "2020-09-01T00:00:00",
             maintenances: [],
           },
@@ -58,7 +58,7 @@ const App = () => {
             location: "Boulevard Lambermont 1, 1000 Bruxelles",
             description: "Toshiba Satellite C55-B5300 16-Inch Laptop",
             picturePath: null,
-            status: "Request Cleaning",
+            status: "Requested",
             dateAdded: "2020-08-19T00:00:00",
             maintenances: [],
           },
@@ -212,13 +212,7 @@ const App = () => {
   };
 
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: { xs: 2, md: 8 },
-      }}
-    >
+
       <MUIDataTable
         title={
           <Typography variant="h6">
@@ -235,7 +229,7 @@ const App = () => {
         columns={columns}
         options={options}
       />
-    </Box>
+
   );
 };
 export default App;

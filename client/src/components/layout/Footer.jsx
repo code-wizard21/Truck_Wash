@@ -10,7 +10,6 @@ export default function Footer() {
   return (
     <Box
       component="footer"
-      marginTop={20}
       sx={{
         backgroundColor: (theme) =>
           theme.palette.mode === "light"
@@ -21,7 +20,7 @@ export default function Footer() {
     >
       <Container maxWidth="lg">
         <Grid container spacing={5}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <Typography variant="h6" color="text.primary" gutterBottom>
               About Us
             </Typography>
@@ -30,49 +29,23 @@ export default function Footer() {
               customers.
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <Typography variant="h6" color="text.primary" gutterBottom>
               Contact Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              123 Main Street, Anytown, USA
+              625 McDonald St Regina, SK S4N 4X1,
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: info@example.com
+              Email: qctruckwash.ca
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Phone: +1 234 567 8901
+              Phone: (306) 529.6419
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
-              Follow Us
-            </Typography>
-            <Link href="https://www.facebook.com/" color="inherit">
-              <Facebook />
-            </Link>
-            <Link
-              href="https://www.instagram.com/"
-              color="inherit"
-              sx={{ pl: 1, pr: 1 }}
-            >
-              <Instagram />
-            </Link>
-            <Link href="https://www.twitter.com/" color="inherit">
-              <Twitter />
-            </Link>
-          </Grid>
+ 
         </Grid>
-        <Box mt={5}>
-          <Typography variant="body2" color="text.secondary" align="center">
-            {"Copyright © "}
-            <Link color="inherit" href="https://your-website.com/">
-              Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-          </Typography>
-        </Box>
+   
       </Container>
     </Box>
   );

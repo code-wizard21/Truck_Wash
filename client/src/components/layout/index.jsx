@@ -1,21 +1,38 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-// import { useSelector } from 'react-redux';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Header from './Nav';
+import Footer from './Footer';
+import { makeStyles } from '@material-ui/core/styles';
 
-import Header from "./Nav";
-import Footer from "./Footer";
+// Custom hook for styling
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh', // Set minimum height to fill the screen height
+  },
+  content: {
+    flexGrow: 1, // Allows the content to fill the space between header and footer
+    paddingBottom: theme.spacing(6), // Add padding to bottom equal to the footer's height
+  },
+  footer: {
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    // If you know the exact height of the footer, set it here
+    // height: '64px', // Example footer height
+  },
+}));
 
 const PageLayout = (props) => {
+  const classes = useStyles();
   const { children } = props;
 
   return (
-    <div>
+    <div className={classes.root}>
       <Header />
-      <div>
-        {children}
-        <div />
-      </div>
-      <Footer />
+      <div className={classes.content}>{children}</div>
+      <Footer className={classes.footer} />
     </div>
   );
 };

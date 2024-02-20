@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import IconButton from '@mui/material/IconButton';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import IconButton from "@mui/material/IconButton";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import "./style.css";
 
 const api = axios.create({
   baseURL: `http://localhost:5000/api`,
 });
 const theme = createMuiTheme();
+
 const App = () => {
   const [state, setState] = useState({
     page: 1,
@@ -46,7 +47,7 @@ const App = () => {
             location: "Rue Neuve 123, 1000 Bruxelles",
             description: "Lenovo Yoga S940",
             picturePath: null,
-            status: "Request Cleaning",
+            status: "Requested",
             dateAdded: "2020-09-01T00:00:00",
             maintenances: [],
           },
@@ -56,7 +57,7 @@ const App = () => {
             location: "Boulevard Lambermont 1, 1000 Bruxelles",
             description: "Toshiba Satellite C55-B5300 16-Inch Laptop",
             picturePath: null,
-            status: "Request Cleaning",
+            status: "Requested",
             dateAdded: "2020-08-19T00:00:00",
             maintenances: [],
           },
@@ -199,31 +200,22 @@ const App = () => {
   };
 
   return (
-    <Box
-      component="main"
-       sx={{
-    flexGrow: 1,
-    py: { xs: 2, md: 8 },
-  }}
-    >
-        <MUIDataTable
-          title={
-            <Typography variant="h6">
-              List of Task
-              {isLoading && (
-                <CircularProgress
-                  size={24}
-                  style={{ marginLeft: 15, position: "relative", top: 4 }}
-                />
-              )}
-            </Typography>
-          }
-          data={data}
-          columns={columns}
-          options={options}
-        />
-   
-    </Box>
+    <MUIDataTable
+      title={
+        <Typography variant="h6">
+          List of Request Task
+          {isLoading && (
+            <CircularProgress
+              size={24}
+              style={{ marginLeft: 15, position: "relative", top: 4 }}
+            />
+          )}
+        </Typography>
+      }
+      data={data}
+      columns={columns}
+      options={options}
+    />
   );
 };
 export default App;

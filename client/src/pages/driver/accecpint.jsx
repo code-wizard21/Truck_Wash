@@ -46,7 +46,7 @@ const Accept = () => {
             location: "Chaussée d'Ixelles 84/86, 1050 Ixelles",
             description: "Toshiba Satellite S55-C5274 15.6 Inch",
             picturePath: null,
-            status: "Accept",
+            status: "Accepted",
             dateAdded: "2020-08-05T00:00:00",
             maintenances: [],
           },
@@ -56,7 +56,7 @@ const Accept = () => {
             location: "Boulevard Sylvain Dupuis 433, 1070 Anderlecht",
             description: "Lenovo Ideapad 330-15ARR",
             picturePath: null,
-            status: "Accept",
+            status: "Accepted",
             dateAdded: "2020-08-02T00:00:00",
             maintenances: [],
           },
@@ -199,18 +199,11 @@ const Accept = () => {
   };
 
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8,
-      }}
-    >
-      <Container maxWidth="lg">
+
         <MUIDataTable
           title={
             <Typography variant="h6">
-              List of Task
+              List of Accepted Task
               {isLoading && (
                 <CircularProgress
                   size={24}
@@ -223,8 +216,7 @@ const Accept = () => {
           columns={columns}
           options={options}
         />
-      </Container>
-    </Box>
+
   );
 };
 export default Accept;

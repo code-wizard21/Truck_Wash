@@ -50,7 +50,7 @@ const App = () => {
             location: "Chaussée de Louvain 610, 1030 Schaerbeek",
             description: "Lenovo Legion Y740 (81UH006YIN)",
             picturePath: null,
-            status: "Finished washing",
+            status: "Washed",
             dateAdded: "2020-08-01T00:00:00",
             maintenances: [],
           },
@@ -60,20 +60,11 @@ const App = () => {
             location: "Rue Saint-Lambert 200, 1200 Woluwe-Saint-Lambert",
             description: "TOSHIBA Laptop Tecra A50-01R01S Intel Core i7",
             picturePath: null,
-            status: "Finished washing",
+            status: "Washed",
             dateAdded: "2020-07-01T00:00:00",
             maintenances: [],
           },
-          {
-            id: 3,
-            name: "Lenovo_IdeaPad_Slim_311",
-            location: "Berchem-Sainte-Agathe",
-            description: null,
-            picturePath: null,
-            status: "Finished washing",
-            dateAdded: null,
-            maintenances: [],
-          },
+        
         ],
         succeeded: true,
         errors: null,
@@ -212,18 +203,11 @@ const App = () => {
   };
   // ... Rest of your code ...
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8,
-      }}
-    >
-      <Container maxWidth="lg">
+
         <MUIDataTable
           title={
             <Typography variant="h6">
-              List of Task
+              List of Finished Task
               {isLoading && (
                 <CircularProgress
                   size={24}
@@ -236,8 +220,7 @@ const App = () => {
           columns={columns}
           options={options}
         />
-      </Container>
-    </Box>
+
   );
 };
 export default App;

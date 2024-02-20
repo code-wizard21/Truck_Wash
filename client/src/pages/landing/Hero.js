@@ -33,8 +33,8 @@ export default function Hero() {
       >
         <Stack spacing={2} useFlexGap sx={{ width: { xs: "100%", sm: "70%" } }}>
           <Typography
-            component="h1"
-            variant="h1"
+            component="h3"
+            variant="h3"
             sx={{
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
@@ -45,7 +45,7 @@ export default function Hero() {
             Our latest&nbsp;
             <Typography
               component="span"
-              variant="h1"
+              variant="h3"
               sx={{
                 color: (theme) =>
                   theme.palette.mode === "light"
@@ -76,8 +76,7 @@ export default function Hero() {
               aria-label="Enter your email address"
               placeholder="Your email address"
               inputProps={{
-                autocomplete: "off",
-                ariaLabel: "Enter your email address",
+                autoComplete: "off",
               }}
             />
             <Button variant="contained" color="primary">
@@ -108,7 +107,7 @@ export default function Hero() {
                 ? 'url("/static/images/templates/templates-images/hero-light.png")'
                 : 'url("/static/images/templates/templates-images/hero-dark.png")',
             backgroundSize: "cover",
-            borderRadius: "10px",
+
             outline: "1px solid",
             outlineColor:
               theme.palette.mode === "light"
