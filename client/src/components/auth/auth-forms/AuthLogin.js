@@ -49,7 +49,7 @@ const FirebaseLogin = ({ ...others }) => {
     console.error("Login");
   };
   const handleChange1 = () => {
-    navigate("/wash/checktask");
+    navigate("/client/checktask");
   };
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {

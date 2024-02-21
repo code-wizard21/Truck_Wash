@@ -40,7 +40,7 @@ export default function LabTabs() {
           >
             <Tab label="Requested" value="1" />
             <Tab label="Accepted" value="2" />
-            <Tab label="Washed " value="3" />
+            {/* <Tab label="Washed " value="3" /> */}
           </TabList>
         </Box>
         <TabPanel value="1">
@@ -49,9 +49,9 @@ export default function LabTabs() {
         <TabPanel value="2">
           <Accept />
         </TabPanel>
-        <TabPanel value="3">
+        {/* <TabPanel value="3">
           <Washing />
-        </TabPanel>
+        </TabPanel> */}
       </TabContext>
     </Box>
   );

@@ -17,24 +17,23 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-
-function createData(cnumber, description, date, cname) {
-  return { cnumber, description, date, cname };
+// ... Your rows data here
+function createData(cnumber, description, date) {
+  return { cnumber, description, date };
 }
 const rows = [
-  createData("3532525", "Wash the car", "2024-10-12", "Company1"),
-  createData("3532525", "Wash the car", "2024-10-12", "Company2"),
-  createData("3532525", "Wash the car", "2024-10-12", "Company3"),
-  createData("3532525", "Wash the car", "2024-10-12", "Company4"),
+  createData("3532525", "Wash the car", "2024-10-12"),
+  createData("3532525", "Wash the car", "2024-10-12"),
+  createData("3532525", "Wash the car", "2024-10-12"),
+  createData("3532525", "Wash the car", "2024-10-12"),
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "white",
-    color: "black",
-    fontWeight: "bold",
-    fontSize: "18px",
+    backgroundColor: 'white',
+    color: 'black',
+    fontWeight:'bold',
+    fontSize:'18px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -50,6 +49,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 2,
   },
 }));
+
+
 
 function CollapsibleRow({ row, isMobile }) {
   const [open, setOpen] = useState(false);
@@ -71,14 +72,9 @@ function CollapsibleRow({ row, isMobile }) {
             <span> {row.cnumber}</span>
           </div>
         </TableCell>
-        <TableCell>{row.cname}</TableCell>
+        <TableCell>{row.description}</TableCell>
         {!isMobile && (
           <>
-            <TableCell>
-              {/* <div className="date"> */}
-              <span> {row.description}</span>
-              {/* </div> */}
-            </TableCell>
             <TableCell>
               {/* <div className="date"> */}
               <span> {row.date}</span>
@@ -86,7 +82,7 @@ function CollapsibleRow({ row, isMobile }) {
             </TableCell>
             <TableCell>
               <IconButton color="secondary" aria-label="add an alarm">
-                <CheckBoxIcon />
+                <ClearIcon />
               </IconButton>
             </TableCell>
           </>
@@ -101,12 +97,6 @@ function CollapsibleRow({ row, isMobile }) {
                   <TableBody>
                     <TableRow>
                       <TableCell component="th" scope="row">
-                        Description
-                      </TableCell>
-                      <TableCell align="right">{row.description}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
                         Date
                       </TableCell>
                       <TableCell align="right">{row.date}</TableCell>
@@ -117,12 +107,9 @@ function CollapsibleRow({ row, isMobile }) {
                       </TableCell>
 
                       <TableCell align="right">
-
-<IconButton color="secondary" aria-label="add an alarm">
-                          <CheckBoxIcon />
+                        <IconButton color="secondary" aria-label="add an alarm">
+                          <ClearIcon />
                         </IconButton>
-
-                    
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -146,10 +133,9 @@ export default function ResponsiveCollapsibleTable() {
           <TableRow>
             {isMobile && <TableCell />}
             <StyledTableCell>Car Number</StyledTableCell>
-            <StyledTableCell>Company Name</StyledTableCell>
+            <StyledTableCell>Description</StyledTableCell>
             {!isMobile && (
               <>
-                <StyledTableCell>Description</StyledTableCell>
                 <StyledTableCell>Date</StyledTableCell>
                 <StyledTableCell>Action</StyledTableCell>
               </>
