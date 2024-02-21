@@ -4,7 +4,6 @@ import { Route } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { lazy } from "react";
 import PageLayout from "../components/layout";
-
 import { ROUTES_CONSTANTS } from "./rotueConstant";
 const Dashboard = lazy(() => import("../pages/client/dashboard"));
 const Login = lazy(() => import("../components/auth/Login"));
@@ -15,7 +14,6 @@ const LandingPage = lazy(() => import("../pages/landing"));
 const Admin = lazy(() => import("../pages/admin"));
 const Admin_Role = lazy(() => import("../pages/admin/admin-role"));
 const Driver_Role = lazy(() => import("../pages/admin/driver-role"));
-
 function RoutesDefined() {
   return (
     <Router>
@@ -39,5 +37,5 @@ function RoutesDefined() {
     </Router>
   );
 }
-
 export default RoutesDefined;
+

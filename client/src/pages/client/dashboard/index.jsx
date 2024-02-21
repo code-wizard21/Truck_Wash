@@ -1,243 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "./style.css";
-import { Box, Container ,CircularProgress, Typography } from "@mui/material";
-import axios from "axios";
-import MUIDataTable from "mui-datatables";
-import { createMuiTheme } from "@material-ui/core/styles";
+import * as React from "react";
+import { Container, Tab, Box } from "@mui/material";
+import { TabPanel, TabContext, TabList } from "@mui/lab";
+import Accept from "./accecpint";
+import Washing from "./washing";
+import Request from "./request";
 
-const api = axios.create({
-  baseURL: `http://localhost:5000/api`,
-});
+export default function LabTabs() {
+  const [value, setValue] = React.useState("1");
 
-const App = () => {
-  const [state, setState] = useState({
-    page: 1,
-    count: 1,
-    rowsPerpage: 10,
-    sortOrder: {},
-    isLoading: false,
-    data: [],
-    editData: [],
-    equipment: [],
-  });
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getDateSrc = () => {
-    return [
-      {
-        pageNumber: 1,
-        pageSize: 10,
-        firstPage: null,
-        lastPage: null,
-        totalPages: 0,
-        totalRecords: 14,
-        nextPage: null,
-        previousPage: null,
-        data: [
-          {
-            id: 3,
-            name: "Lenovo_Yoga11",
-            location: "Rue Neuve 123, 1000 Bruxelles",
-            description: "Lenovo Yoga S940",
-            picturePath: null,
-            status: "Waiting",
-            dateAdded: "2020-09-01T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 7,
-            name: "Toshiba_Satellite11",
-            location: "Boulevard Lambermont 1, 1000 Bruxelles",
-            description: "Toshiba Satellite C55-B5300 16-Inch Laptop",
-            picturePath: null,
-            status: "Waiting",
-            dateAdded: "2020-08-19T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 5,
-            name: "Toshib_Satellite y11",
-            location: "Chaussée d'Ixelles 84/86, 1050 Ixelles",
-            description: "Toshiba Satellite S55-C5274 15.6 Inch",
-            picturePath: null,
-            status: "Accept",
-            dateAdded: "2020-08-05T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 4,
-            name: "Lenovo_Ideapad11",
-            location: "Boulevard Sylvain Dupuis 433, 1070 Anderlecht",
-            description: "Lenovo Ideapad 330-15ARR",
-            picturePath: null,
-            status: "Accept",
-            dateAdded: "2020-08-02T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 2,
-            name: "Lenovo_Legion11",
-            location: "Chaussée de Louvain 610, 1030 Schaerbeek",
-            description: "Lenovo Legion Y740 (81UH006YIN)",
-            picturePath: null,
-            status: "Finish",
-            dateAdded: "2020-08-01T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 6,
-            name: "TOSHIBA_Laptop11",
-            location: "Rue Saint-Lambert 200, 1200 Woluwe-Saint-Lambert",
-            description: "TOSHIBA Laptop Tecra A50-01R01S Intel Core i7",
-            picturePath: null,
-            status: "Finish",
-            dateAdded: "2020-07-01T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 1,
-            name: "Lenovo_IdeaPad_Slim_311",
-            location: "Berchem-Sainte-Agathe",
-            description: null,
-            picturePath: null,
-            status: "Finish",
-            dateAdded: null,
-            maintenances: [],
-          },
-        ],
-        succeeded: true,
-        errors: null,
-        message: null,
-      },
-    ];
-  };
-  const getData = () => {
-    setState({
-      ...state,
-      data: getDateSrc()[0].data,
-      isLoading: false,
-      page: getDateSrc()[0].pageNumber,
-      count: getDateSrc()[0].totalRecords,
-    });
-  };
-
-  const columns = [
-    {
-      name: "name",
-      label: "Name",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].name}</span>;
-        },
-      },
-    },
-    {
-      name: "carcode",
-      label: "Car Number",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].name}</span>;
-        },
-      },
-    },
-    {
-      name: "description",
-      label: "Description",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].description}</span>;
-        },
-      },
-    },
-    {
-      name: "status",
-      label: "State",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          const state = data[dataIndex].status;
-          if (state === "Accept") {
-            return (
-              <div className="operating">
-                <span>{state}</span>
-              </div>
-            );
-          }
-          if (state === "Finish") {
-            return (
-              <div className="finish">
-                <span>{state}</span>
-              </div>
-            );
-          } else {
-            return (
-              <div className="maintenance">
-                <span>{state}</span>
-              </div>
-            );
-          }
-        },
-      },
-    },
-    {
-      name: "pnumber",
-      label: "Phone Number",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].location}</span>;
-        },
-      },
-    },
-    {
-      name: "dateAdded",
-      label: "Date",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].dateAdded}</span>;
-        },
-      },
-    },
-  ];
-
-  const { data, count, isLoading, rowsPerpage } = state;
-  const options = {
-    filter: true,
-    filterType: "dropdown",
-    responsive: "vertical",
-    download: false,
-    serverSide: true,
-    print: false,
-    count: count,
-    rowsPerpage: rowsPerpage,
-    rowsPerPageOptions: [],
-    selectableRowsHideCheckboxes: false,
-    selectableRows: "none",
-    selectableRowsHeader: false,
-    onColumnSortChange: (changedColumn, direction) =>
-      console.log("changedColumn: ", changedColumn, "direction: ", direction),
-    onChangeRowsPerPage: (numberOfRows) =>
-      console.log("numberOfRows: ", numberOfRows),
-    onChangePage: (currentPage) => console.log("currentPage: ", currentPage),
-    onTableChange: (action, tableState) => {
-      console.log(action, tableState);
-      //   switch (action) {
-      //   case "changePage":
-      //     changePage(tableState.page);  // <-- Change is here
-      //     break;
-      //   case "sort":
-      //     sort(tableState.page);  // <-- Change is here
-      //     break;
-      //   default:
-      //     console.log("action not handled.");
-      // }
-    },
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
@@ -245,28 +17,43 @@ const App = () => {
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8,
+        py: { xs: 2, sm: 4, md: 6, lg: 8 }, // Adjust padding for different screen sizes
+        // Add additional styling as needed here
       }}
     >
-      <Container maxWidth="lg">
-        <MUIDataTable
-          title={
-            <Typography variant="h6">
-              List of Task
-              {isLoading && (
-                <CircularProgress
-                  size={24}
-                  style={{ marginLeft: 15, position: "relative", top: 4 }}
-                />
-              )}
-            </Typography>
-          }
-          data={data}
-          columns={columns}
-          options={options}
-        />
-      </Container>
+
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <TabList
+            onChange={handleChange}
+            allowScrollButtonsMobile
+            aria-label="lab API tabs example"
+            sx={{
+              "& .MuiTab-root": {
+                // Apply styles to each Tab
+                fontSize: { sm: "0.875rem", md: "1rem" }, // Adjust font size for different breakpoints
+                minWidth: 0, // Remove the default minWidth
+                padding: { sm: "6px 12px", md: "8px 16px" }, // Adjust padding for different breakpoints
+                // Add additional styles as needed
+              },
+            }}
+          >
+            <Tab label="Requested" value="1" />
+            <Tab label="Accepted" value="2" />
+            <Tab label="Washed " value="3" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <Request />
+        </TabPanel>
+        <TabPanel value="2">
+          <Accept />
+        </TabPanel>
+        <TabPanel value="3">
+          <Washing />
+        </TabPanel>
+      </TabContext>
+   
     </Box>
   );
-};
-export default App;
+}
