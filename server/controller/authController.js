@@ -33,7 +33,7 @@ exports.signin = async (req, res) => {
       where: { Email: req.body.Email },
     });
     if (!user) {
-      return res.status(400).send({ error: "User not found"});
+      return res.status(400).send({ error: "User not found" });
     }
     const isPasswordValid = await bcrypt.compare(
       req.body.Password,
@@ -43,9 +43,10 @@ exports.signin = async (req, res) => {
       return res.status(400).send({ error: "Invalid password" });
     }
     const token = jwt.sign(
-      { birthday: user.Birthday, job: user.Job },
+      {email: user.Email, birthday: user.Birthday, job: user.Job },
       "secret"
     );
+    console.log("token",token)
     res.send({ token });
   } catch (err) {}
 };

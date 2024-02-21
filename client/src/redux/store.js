@@ -1,13 +1,18 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createStore, applyMiddleware ,compose} from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { thunk } from 'redux-thunk';
+import rootReducer from "./reducer";
 
-const emptyReducer = createSlice({
-  name: "empty",
-  initialState: null,
-  reducers: {},
-}).reducer;
+const initialState = {};
 
-export const store = configureStore({
-  reducer: {
-    emptyState: emptyReducer,
-  },
-});
+const middleware = [thunk];
+
+const composeEnhancers =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeEnhancers(applyMiddleware(...middleware))
+);
+
+export default store;

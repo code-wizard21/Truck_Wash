@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-
+import { jwtDecode } from "jwt-decode";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -33,7 +33,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate from react
 // assets
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import axios from "axios";
 import Google from "../../../assets/images/icons/social-google.svg";
 
 // ============================|| FIREBASE - LOGIN ||============================ //
@@ -45,12 +45,43 @@ const FirebaseLogin = ({ ...others }) => {
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
 
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
   const googleHandler = async () => {
     console.error("Login");
   };
-  const handleChange1 = () => {
-    navigate("/wash/checktask");
+
+  const handleChangeB = () => {
+    axios
+      .post("/app/auth/sigin", { Email: email, Password: pass })
+      .then((data) => {
+        const token = data.data.token;
+        console.log(token);
+        // Login successful, store the token in local storage
+        localStorage.setItem("authToken", token);
+        if (token) {
+          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        } else {
+          // If there is no token, delete the authorization header
+          delete axios.defaults.headers.common["Authorization"];
+        }
+        const decodedToken = jwtDecode(token);
+
+        if (decodedToken.job == "customer") {
+          navigate("/client/checktask");
+        } else if (decodedToken.job == "washer") {
+          navigate("/");
+        } else if (decodedToken.job == "driver") {
+          navigate("/");
+        } else if (decodedToken.job == "admin") {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -93,8 +124,8 @@ const FirebaseLogin = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          email: "info@codedthemes.com",
-          password: "123456",
+          email: "",
+          password: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
@@ -127,9 +158,8 @@ const FirebaseLogin = ({ ...others }) => {
           handleSubmit,
           isSubmitting,
           touched,
-          values,
         }) => (
-          <form noValidate onSubmit={handleSubmit} {...others}>
+          <form onSubmit={handleSubmit} {...others}>
             <FormControl
               fullWidth
               error={Boolean(touched.email && errors.email)}
@@ -146,10 +176,11 @@ const FirebaseLogin = ({ ...others }) => {
                 id="outlined-adornment-email-login"
                 type="email"
                 marginBottom="10"
-                value={values.email}
+                value={email}
                 name="email"
                 onBlur={handleBlur}
-                onChange={handleChange}
+                // onChange={handleChange}
+                onChange={(e) => setEmail(e.target.value)}
                 label="Email Address / Username"
                 inputProps={{}}
               />
@@ -175,10 +206,11 @@ const FirebaseLogin = ({ ...others }) => {
               <OutlinedInput
                 id="outlined-adornment-password-login"
                 type={showPassword ? "text" : "password"}
-                value={values.password}
+                value={pass}
                 name="password"
                 onBlur={handleBlur}
-                onChange={handleChange}
+                // onChange={handleChange}
+                onChange={(e) => setPass(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -245,7 +277,7 @@ const FirebaseLogin = ({ ...others }) => {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  onClick={handleChange1}
+                  onClick={handleChangeB}
                 >
                   Sign in
                 </Button>

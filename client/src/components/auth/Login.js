@@ -10,7 +10,7 @@ import AuthCardWrapper from "./AuthCardWrapper";
 import AuthLogin from "./auth-forms/AuthLogin";
 import Logo from "../../ui-component/Logo";
 import AuthFooter from "../../ui-component/cards/AuthFooter";
-
+import axios from 'axios';
 // assets
 
 // ================================|| AUTH3 - LOGIN ||================================ //
