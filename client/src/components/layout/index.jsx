@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Header from './Nav';
 import Footer from './Footer';
 import { makeStyles } from '@material-ui/core/styles';
-
 // Custom hook for styling
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,8 +11,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh', // Set minimum height to fill the screen height
   },
   content: {
-    flexGrow: 1, // Allows the content to fill the space between header and footer
-    paddingBottom: theme.spacing(6), // Add padding to bottom equal to the footer's height
+    flexGrow: 1, // Allows the content to fill the space between header and footerAdd padding to bottom equal to the footer's height
   },
   footer: {
     position: 'fixed',
@@ -23,11 +21,9 @@ const useStyles = makeStyles((theme) => ({
     // height: '64px', // Example footer height
   },
 }));
-
 const PageLayout = (props) => {
   const classes = useStyles();
   const { children } = props;
-
   return (
     <div className={classes.root}>
       <Header />
@@ -36,13 +32,10 @@ const PageLayout = (props) => {
     </div>
   );
 };
-
 PageLayout.propTypes = {
   children: PropTypes.node,
 };
-
 PageLayout.defaultProps = {
   children: null,
 };
-
 export default PageLayout;

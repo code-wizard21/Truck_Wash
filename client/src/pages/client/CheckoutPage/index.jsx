@@ -16,15 +16,13 @@ import {
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 
 function CheckoutPage() {
-  const [companyName, setCompanyName] = useState("");
   const [trackCode, setTrackCode] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [showErrors, setShowErrors] = useState(false);
   const [date, setDate] = useState(null);
   const navigate = useNavigate();
 
   const validate = () => {
-    if (!companyName || !trackCode || !phoneNumber) {
+    if (!trackCode)  {
       setShowErrors(true);
       console.log(trackCode);
     } else {
@@ -46,42 +44,20 @@ function CheckoutPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              error={!companyName && showErrors}
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              id="standard-basic"
-              name="cname"
-              label="Company Name"
-              variant="standard"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+
+          <Grid item xs={12} sm={12}>
             <TextField
               error={!trackCode && showErrors}
               value={trackCode}
               onChange={(e) => setTrackCode(e.target.value)}
               id="standard-basic"
               name="carcode"
-              label="Track Code"
+              label=" Registration Number"
               variant="standard"
               fullWidth
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <TextField
-              error={!phoneNumber && showErrors}
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              name="pnumber"
-              label="Company Phone Number"
-              id="standard-basic"
-              fullWidth
-            />
-          </Grid>
           <Grid item xs={12}>
             <TextField
               name="tell"

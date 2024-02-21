@@ -1,226 +1,163 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Collapse,
   Box,
-  Container
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import IconButton from '@mui/material/IconButton';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import axios from "axios";
-import MUIDataTable from "mui-datatables";
-import { CircularProgress, Typography } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
-import "./style.css";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import ClearIcon from "@mui/icons-material/Clear";
+import { styled } from "@mui/material/styles";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+// ... Your rows data here
+function createData(cnumber, description, date, cname) {
+  return { cnumber, description, date, cname };
+}
+const rows = [
+  createData("3532525", "Wash the car", "2024-10-12", "Company1"),
+  createData("3532525", "Wash the car", "2024-10-12", "Company2"),
+  createData("3532525", "Wash the car", "2024-10-12", "Company3"),
+  createData("3532525", "Wash the car", "2024-10-12", "Company4"),
+];
 
-const api = axios.create({
-  baseURL: `http://localhost:5000/api`,
-});
-const theme = createMuiTheme();
-const App = () => {
-  const [state, setState] = useState({
-    page: 1,
-    count: 1,
-    rowsPerpage: 10,
-    sortOrder: {},
-    isLoading: false,
-    data: [],
-    editData: [],
-    equipment: [],
-  });
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "18px",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
-  useEffect(() => {
-    getData();
-  }, []);
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 2,
+  },
+}));
 
-  const getDateSrc = () => {
-    return [
-      {
-        pageNumber: 1,
-        pageSize: 10,
-        firstPage: null,
-        lastPage: null,
-        totalPages: 0,
-        totalRecords: 14,
-        nextPage: null,
-        previousPage: null,
-        data: [
-         
-          {
-            id: 1,
-            name: "Lenovo_Legion11",
-            location: "Chaussée de Louvain 610, 1030 Schaerbeek",
-            description: "Lenovo Legion Y740 (81UH006YIN)",
-            picturePath: null,
-            status: "Washed",
-            dateAdded: "2020-08-01T00:00:00",
-            maintenances: [],
-          },
-          {
-            id: 2,
-            name: "TOSHIBA_Laptop11",
-            location: "Rue Saint-Lambert 200, 1200 Woluwe-Saint-Lambert",
-            description: "TOSHIBA Laptop Tecra A50-01R01S Intel Core i7",
-            picturePath: null,
-            status: "Washed",
-            dateAdded: "2020-07-01T00:00:00",
-            maintenances: [],
-          },
-        
-        ],
-        succeeded: true,
-        errors: null,
-        message: null,
-      },
-   
-    ];
-  };
-  const getData = () => {
-    setState({
-      ...state,
-      data: getDateSrc()[0].data,
-      isLoading: false,
-      page: getDateSrc()[0].pageNumber,
-      count: getDateSrc()[0].totalRecords,
-    });
-  };
-  const columns = [
-      { name: "id", label: "NO", width: 70 },
-    {
-      name: "name",
-      label: "Name",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].name}</span>;
-        },
-      },
-    },
-    {
-      name: "carcode",
-      label: "Car Number",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].name}</span>;
-        },
-      },
-    },
-    {
-      name: "description",
-      label: "Description",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].description}</span>;
-        },
-      },
-    },
-    {
-      name: "status",
-      label: "State",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          const state = data[dataIndex].status;
-      
-            return (
-              <div className="finish">
-                <span>{state}</span>
-              </div>
-            );        
-          }
-        },
-      
-    },
-    {
-      name: "pnumber",
-      label: "Phone Number",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].location}</span>;
-        },
-      },
-    },
-    {
-      name: "dateAdded",
-      label: "Date",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return <span>{data[dataIndex].dateAdded}</span>;
-        },
-      },
-    },
-     {
-      name: "Action",
-      label: "Action",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          return (
-            <span>
-              <IconButton color="secondary" aria-label="add an alarm">
-                <CheckCircleIcon />
-              </IconButton>
-            </span>
-          );
-        },
-      },
-    },
-  ];
-  const { data, count, isLoading, rowsPerpage } = state;
-  const options = {
-    filter: true,
-    filterType: "dropdown",
-    responsive: "vertical",
-    download: false,
-    serverSide: true,
-    print: false,
-    count: count,
-    rowsPerpage: rowsPerpage,
-    rowsPerPageOptions: [],
-    selectableRowsHideCheckboxes: false,
-    selectableRows: "none",
-    selectableRowsHeader: false,
-    onColumnSortChange: (changedColumn, direction) =>
-      console.log("changedColumn: ", changedColumn, "direction: ", direction),
-    onChangeRowsPerPage: (numberOfRows) =>
-      console.log("numberOfRows: ", numberOfRows),
-    onChangePage: (currentPage) => console.log("currentPage: ", currentPage),
-    onTableChange: (action, tableState) => {
-      console.log(action, tableState);
-      //   switch (action) {
-      //   case "changePage":
-      //     changePage(tableState.page);  // <-- Change is here
-      //     break;
-      //   case "sort":
-      //     sort(tableState.page);  // <-- Change is here
-      //     break;
-      //   default:
-      //     console.log("action not handled.");
-      // }
-    },
-  };
-  // ... Rest of your code ...
+function CollapsibleRow({ row, isMobile }) {
+  const [open, setOpen] = useState(false);
   return (
+    <>
+      <StyledTableRow
+        sx={{ "& > *": { borderBottom: "unset" } }}
+        onClick={() => setOpen(!open)}
+      >
+        {isMobile && (
+          <TableCell>
+            <IconButton size="small">
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+        )}
+        <TableCell component="th" scope="row">
+          <div className="accept">
+            <span> {row.cnumber}</span>
+          </div>
+        </TableCell>
+        <TableCell>{row.cname}</TableCell>
+        {!isMobile && (
+          <>
+            <TableCell>
+              {/* <div className="date"> */}
+              <span> {row.description}</span>
+              {/* </div> */}
+            </TableCell>
+            <TableCell>
+              {/* <div className="date"> */}
+              <span> {row.date}</span>
+              {/* </div> */}
+            </TableCell>
+            <TableCell>
+              <IconButton color="secondary" aria-label="add an alarm">
+                <ClearIcon />
+              </IconButton>
+            </TableCell>
+          </>
+        )}
+      </StyledTableRow>
+      {isMobile && (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Table size="small" aria-label="details">
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Description
+                      </TableCell>
+                      <TableCell align="right">{row.description}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Date
+                      </TableCell>
+                      <TableCell align="right">{row.date}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Action
+                      </TableCell>
 
-        <MUIDataTable
-          title={
-            <Typography variant="h6">
-              List of Finished Task
-              {isLoading && (
-                <CircularProgress
-                  size={24}
-                  style={{ marginLeft: 15, position: "relative", top: 4 }}
-                />
-              )}
-            </Typography>
-          }
-          data={data}
-          columns={columns}
-          options={options}
-        />
-
+                      <TableCell align="right">
+                        <IconButton color="secondary" aria-label="add an alarm">
+                          <ClearIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
+    </>
   );
-};
-export default App;
+}
+export default function ResponsiveCollapsibleTable() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            {isMobile && <TableCell />}
+            <StyledTableCell>Car Number</StyledTableCell>
+            <StyledTableCell>Company Name</StyledTableCell>
+            {!isMobile && (
+              <>
+                <StyledTableCell>Description</StyledTableCell>
+                <StyledTableCell>Date</StyledTableCell>
+                <StyledTableCell>Action</StyledTableCell>
+              </>
+            )}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <CollapsibleRow key={row.name} row={row} isMobile={isMobile} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}

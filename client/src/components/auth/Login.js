@@ -11,6 +11,7 @@ import AuthLogin from "./auth-forms/AuthLogin";
 import Logo from "../../ui-component/Logo";
 import AuthFooter from "../../ui-component/cards/AuthFooter";
 import axios from 'axios';
+import logo from "../../assets/images/photo.png";
 // assets
 
 // ================================|| AUTH3 - LOGIN ||================================ //
@@ -18,7 +19,7 @@ import axios from 'axios';
 const Login = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <AuthWrapper1>
       <Grid
@@ -43,9 +44,11 @@ const Login = () => {
                   justifyContent="center"
                 >
                   <Grid item sx={{ mb: 3 }}>
-                    <Link to="#">
-                      <Logo />
-                    </Link>
+                    <img
+                      src={logo}
+                      alt="logo"
+                      sx={{ width: isMobile ? 100 : 150 }}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Grid
@@ -85,9 +88,6 @@ const Login = () => {
               </AuthCardWrapper>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
-          <AuthFooter />
         </Grid>
       </Grid>
     </AuthWrapper1>
