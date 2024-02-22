@@ -26,9 +26,9 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   useEffect(() => {
-    if (!auth.isLoggedIn) {
-      navigate("/");
-    }
+    // if (!auth.isLoggedIn) {
+    //   navigate("/");
+    // }
   }, []);
   const validate = () => {
     if (!trackCode && !description) {

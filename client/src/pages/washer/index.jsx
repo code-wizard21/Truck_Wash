@@ -19,9 +19,9 @@ export default function LabTabs() {
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!auth.isLoggedIn) {
-      navigate("/");
-    }
+    // if (!auth.isLoggedIn) {
+    //   navigate("/");
+    // }
   }, []);
   useEffect(() => {
     Http.get("/api/wash/getAllList")

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Tab, Box } from "@mui/material";
+import { Tab, Box } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
@@ -33,8 +33,7 @@ export default function LabTabs() {
       component="main"
       sx={{
         flexGrow: 1,
-        py: { xs: 2, sm: 4, md: 6, lg: 8 }, // Adjust padding for different screen sizes
-        // Add additional styling as needed here
+        py: { xs: 2, sm: 4, md: 6, lg: 8 },
       }}
     >
       <TabContext value={value}>
@@ -45,11 +44,9 @@ export default function LabTabs() {
             aria-label="lab API tabs example"
             sx={{
               "& .MuiTab-root": {
-                // Apply styles to each Tab
-                fontSize: { sm: "0.875rem", md: "1rem" }, // Adjust font size for different breakpoints
-                minWidth: 0, // Remove the default minWidth
-                padding: { sm: "6px 12px", md: "8px 16px" }, // Adjust padding for different breakpoints
-                // Add additional styles as needed
+                fontSize: { sm: "0.875rem", md: "1rem" },
+                minWidth: 0,
+                padding: { sm: "6px 12px", md: "8px 16px" },
               },
             }}
           >

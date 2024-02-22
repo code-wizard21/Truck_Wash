@@ -10,5 +10,5 @@ exports.getAllAccepted = async (req,res) => {
         },
       });
 
-      res.send(customerlist);
-}
+  res.send(customerlist);
+};

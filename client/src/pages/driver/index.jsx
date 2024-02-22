@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Container, Tab, Box } from "@mui/material";
+import { Tab, Box } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
@@ -12,15 +10,15 @@ import Http from "../../utils/http";
 export default function LabTabs() {
   const [value, setValue] = useState("1");
   const [cusList, setCusList] = useState([]);
-  const auth = useSelector((state) => state.auth);
+  // const auth = useSelector((state) => state.auth);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const navigate = useNavigate();
+
   useEffect(() => {
-    if (!auth.isLoggedIn) {
-      navigate("/");
-    }
+    // if (!auth.isLoggedIn) {
+    //   navigate("/");
+    // }
   }, []);
   useEffect(() => {
     Http
@@ -28,15 +26,17 @@ export default function LabTabs() {
       .then((data) => {
         setCusList(data.data);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
   return (
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: { xs: 2, sm: 4, md: 6, lg: 8 }, // Adjust padding for different screen sizes
-        // Add additional styling as needed here
+        py: { xs: 2, sm: 4, md: 6, lg: 8 }, 
       }}
     >
       <TabContext value={value}>
@@ -47,11 +47,11 @@ export default function LabTabs() {
             allowScrollButtonsMobile
             sx={{
               "& .MuiTab-root": {
-                // Apply styles to each Tab
-                fontSize: { sm: "0.875rem", md: "1rem" }, // Adjust font size for different breakpoints
-                minWidth: 0, // Remove the default minWidth
-                padding: { sm: "6px 12px", md: "8px 16px" }, // Adjust padding for different breakpoints
-                // Add additional styles as needed
+             
+                fontSize: { sm: "0.875rem", md: "1rem" }, 
+                minWidth: 0,
+                padding: { sm: "6px 12px", md: "8px 16px" }, 
+  
               },
             }}
           >
