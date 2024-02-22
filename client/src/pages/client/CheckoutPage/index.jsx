@@ -15,7 +15,7 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
-import axios from "axios";
+import Http from "../../../utils/http";
 import moment from "moment";
 function CheckoutPage() {
   const [trackCode, setTrackCode] = useState("");
@@ -36,8 +36,8 @@ function CheckoutPage() {
     } else {
       setShowErrors(false);
 
-      axios
-        .post("/app/cus/register", {
+      Http
+        .post("/api/cus/register", {
           name: auth.user.name,
           cardNum: trackCode,
           detail: description,

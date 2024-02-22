@@ -30,10 +30,10 @@ const rows = [
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: 'white',
-    color: 'black',
-    fontWeight:'bold',
-    fontSize:'18px'
+    backgroundColor: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "18px",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -49,8 +49,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 2,
   },
 }));
-
-
 
 function CollapsibleRow({ row, isMobile }) {
   const [open, setOpen] = useState(false);
@@ -69,15 +67,15 @@ function CollapsibleRow({ row, isMobile }) {
         )}
         <TableCell component="th" scope="row">
           <div className="accept">
-            <span> {row.cnumber}</span>
+            <span> {row.CarNumber}</span>
           </div>
         </TableCell>
-        <TableCell>{row.description}</TableCell>
+        <TableCell>{row.Detail}</TableCell>
         {!isMobile && (
           <>
             <TableCell>
               {/* <div className="date"> */}
-              <span> {row.date}</span>
+              <span> {row.Date}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
@@ -99,7 +97,7 @@ function CollapsibleRow({ row, isMobile }) {
                       <TableCell component="th" scope="row">
                         Date
                       </TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{row.Date}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row">
@@ -122,7 +120,7 @@ function CollapsibleRow({ row, isMobile }) {
     </>
   );
 }
-export default function ResponsiveCollapsibleTable() {
+export default function ResponsiveCollapsibleTable(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -143,8 +141,13 @@ export default function ResponsiveCollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <CollapsibleRow key={row.name} row={row} isMobile={isMobile} />
+          {props.data.map((row) => (
+            <CollapsibleRow
+              props={props}
+              key={row.id}
+              row={row}
+              isMobile={isMobile}
+            />
           ))}
         </TableBody>
       </Table>

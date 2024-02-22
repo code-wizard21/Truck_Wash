@@ -35,8 +35,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import Google from "../../../assets/images/icons/social-google.svg";
-
-
+import Http from "../../../utils/http";
 
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
@@ -53,19 +52,12 @@ const FirebaseLogin = ({ ...others }) => {
   };
 
   const handleChangeB = () => {
-    axios
-      .post("/app/auth/sigin", { Email: email, Password: pass })
+    Http.post("/api/auth/sigin", { Email: email, Password: pass })
       .then((data) => {
         const token = data.data.token;
         console.log(token);
         // Login successful, store the token in local storage
         localStorage.setItem("authToken", token);
-        if (token) {
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        } else {
-          // If there is no token, delete the authorization header
-          delete axios.defaults.headers.common["Authorization"];
-        }
         const decodedToken = jwtDecode(token);
         dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
         if (decodedToken.job == "customer") {

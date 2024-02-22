@@ -4,20 +4,26 @@ import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
 import Request from "./request";
-import axios from "axios";
+// import axios from "axios";
 import { useSelector } from "react-redux";
+import Http from "../../../utils/http";
 export default function LabTabs() {
   const [value, setValue] = useState("1");
   const [cusData, setCusData] = useState([]);
+  const [cusAccept, setCusAccept] = useState([]);
   const auth = useSelector((state) => state.auth);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   useEffect(() => {
-    axios
-      .post("/app/cus/findAllCustom", { name: auth.user.name })
+    Http.post("/api/cus/findAllCustom", { name: auth.user.name })
       .then((data) => {
         setCusData(data.data);
+      })
+      .catch((err) => {});
+    Http.post("/api/cus/findAcceptCustom", { name: auth.user.name })
+      .then((data) => {
+        setCusAccept(data.data);
       })
       .catch((err) => {});
   }, []);
@@ -56,7 +62,7 @@ export default function LabTabs() {
           <Request data={cusData} setData={setCusData} auth={auth} />
         </TabPanel>
         <TabPanel value="2">
-          <Accept />
+          <Accept data={cusAccept} />
         </TabPanel>
         <TabPanel value="3">
           <Washing />

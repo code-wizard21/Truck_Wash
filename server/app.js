@@ -26,7 +26,7 @@ client.connect()
   .then(() => console.log("Successfully connected to PostgreSQL database"))
   .catch(e => console.log(e));
 
-app.use('/app', indexRouter);
+app.use('/api', indexRouter);
 
 const port = process.env.PORT || 5000;
 
