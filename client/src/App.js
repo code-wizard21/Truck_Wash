@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import RoutesDefined from "./router";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -11,8 +11,6 @@ if (localstorage) {
 }
 
 const App = () => {
-  const [flag, setFlag] = useState(false);
-
   return (
     <Provider store={store}>
       <RoutesDefined />

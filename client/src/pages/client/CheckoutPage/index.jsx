@@ -16,7 +16,8 @@ import {
 } from "@mui/material";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
-import moment from "moment";
+
+
 function CheckoutPage() {
   const [trackCode, setTrackCode] = useState("");
   const [description, setDescription] = useState("");
@@ -26,9 +27,9 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   useEffect(() => {
-    if (!auth.isLoggedIn) {
-      navigate("/");
-    }
+    // if (!auth.isLoggedIn) {
+    //   navigate("/");
+    // }
   }, []);
   const validate = () => {
     if (!trackCode && !description) {

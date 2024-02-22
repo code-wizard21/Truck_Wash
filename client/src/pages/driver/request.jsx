@@ -13,7 +13,6 @@ import {
   useTheme,
 } from "@mui/material";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import ClearIcon from "@mui/icons-material/Clear";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -67,14 +66,14 @@ function CollapsibleRow({ row, isMobile }) {
         {!isMobile && (
           <>
             <TableCell>
-              {/* <div className="date"> */}
+
               <span> {row.Detail}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
-              {/* <div className="date"> */}
+
               <span> {row.Date}</span>
-              {/* </div> */}
+
             </TableCell>
             <TableCell>
               <IconButton color="secondary" aria-label="add an alarm">
