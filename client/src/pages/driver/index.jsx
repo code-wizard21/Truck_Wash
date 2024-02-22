@@ -4,7 +4,7 @@ import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
 import Request from "./request";
-import MyPlan from "./myplan";
+
 // import axios from "axios";
 import Http from "../../utils/http";
 export default function LabTabs() {

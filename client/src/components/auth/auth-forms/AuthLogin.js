@@ -25,10 +25,10 @@ import { Formik } from "formik";
 import useScriptRef from "../../../hooks/useScriptRef";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
-
-// assets
+import { jwtDecode } from "jwt-decode";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import Google from "../../../assets/images/icons/social-google.svg";
 import Http from "../../../utils/http";
@@ -39,7 +39,7 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
+const dispatch = useDispatch();
   const handleChangeB = () => {
     if (email === "driver" && pass === "123") {
       navigate("/driver/checktask");
@@ -51,7 +51,7 @@ const FirebaseLogin = ({ ...others }) => {
       navigate("/client/checktask");
     }
     axios
-      .post("/app/auth/sigin", { Email: email, Password: pass })
+      .post("/api/auth/sigin", { Email: email, Password: pass })
       .then((data) => {
         const token = data.data.token;
         console.log(token);
