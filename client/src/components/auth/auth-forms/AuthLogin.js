@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -36,11 +36,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import Google from "../../../assets/images/icons/social-google.svg";
 
-// ============================|| FIREBASE - LOGIN ||============================ //
-
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
+  const dispatch = useDispatch();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
@@ -66,15 +65,15 @@ const FirebaseLogin = ({ ...others }) => {
           delete axios.defaults.headers.common["Authorization"];
         }
         const decodedToken = jwtDecode(token);
-
+        dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
         if (decodedToken.job == "customer") {
           navigate("/client/checktask");
         } else if (decodedToken.job == "washer") {
-          navigate("/");
+          navigate("/washer/checktask");
         } else if (decodedToken.job == "driver") {
-          navigate("/");
+          navigate("/driver/checktask");
         } else if (decodedToken.job == "admin") {
-          navigate("/");
+          navigate("/admin");
         }
       })
       .catch((err) => {
