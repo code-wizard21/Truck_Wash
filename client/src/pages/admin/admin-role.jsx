@@ -1,121 +1,134 @@
-import { useState } from "react";
-
-import Card from "@mui/material/Card";
-import Stack from "@mui/material/Stack";
-import Table from "@mui/material/Table";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import TableBody from "@mui/material/TableBody";
-
-import TableContainer from "@mui/material/TableContainer";
+import React, { useState } from "react";
 import {
-  TablePagination,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Collapse,
   Box,
-  Typography,
-
+  useMediaQuery,
+  useTheme,
+  Button,
+  Stack,
+  Container,
 } from "@mui/material";
-import { faker } from "@faker-js/faker";
-import { sample } from "lodash";
-import Iconify from "../../components/iconify";
-import Scrollbar from "../../components/scrollbar";
+import { TablePagination, Typography } from "@mui/material";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import ClearIcon from "@mui/icons-material/Clear";
+import { styled } from "@mui/material/styles";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+// ... Your rows data here
+function createData(cnumber, description, date) {
+  return { cnumber, description, date };
+}
+const rows = [
+  createData("INC", "Wash the car", "2024-10-12"),
+  createData("INC", "Wash the car", "2024-10-12"),
+  createData("INC", "Wash the car", "2024-10-12"),
+];
 
-import TableNoData from "./table-no-data";
-import UserTableRow from "./user-table-row";
-import UserTableHead from "./user-table-head";
-import TableEmptyRows from "./table-empty-rows";
-import UserTableToolbar from "./user-table-toolbar";
-import { emptyRows, applyFilter, getComparator } from "./utils";
-
-// ----------------------------------------------------------------------
-const users = [...Array(24)].map((_, index) => ({
-  id: faker.string.uuid(),
-  name: faker.person.fullName(),
-  company: faker.company.name(),
-  isVerified: faker.datatype.boolean(),
-  status: sample(["active", "banned"]),
-  role: sample([
-    "Leader",
-    "Hr Manager",
-    "UI Designer",
-    "UX Designer",
-    "UI/UX Designer",
-    "Project Manager",
-    "Backend Developer",
-    "Full Stack Designer",
-    "Front End Developer",
-    "Full Stack Developer",
-  ]),
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "18px",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
 }));
 
-export default function UserPage() {
-  const [page, setPage] = useState(0);
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 2,
+  },
+}));
 
-  const [order, setOrder] = useState("asc");
+function CollapsibleRow({ row, isMobile }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <StyledTableRow
+        sx={{ "& > *": { borderBottom: "unset" } }}
+        onClick={() => setOpen(!open)}
+      >
+        {isMobile && (
+          <TableCell>
+            <IconButton size="small">
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+        )}
+        
+        <TableCell component="th" scope="row">
+          <div className="accept">
+            <span> {row.cnumber}</span>
+          </div>
+        </TableCell>
 
-  const [selected, setSelected] = useState([]);
+         {!isMobile && (
+        <TableCell>{row.description}</TableCell>
+        )}
 
-  const [orderBy, setOrderBy] = useState("name");
+        {!isMobile && (
+          <>
+            <TableCell>
+              <IconButton color="secondary" aria-label="add an alarm">
+                <ClearIcon />
+              </IconButton>
+            </TableCell>
+          </>
+        )}
+      </StyledTableRow>
+      {isMobile && (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Table size="small" aria-label="details">
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Phone Number
+                      </TableCell>
+                      <TableCell>
+                        <span> {row.cnumber}</span>
+                      </TableCell>
+                    </TableRow>
 
-  const [filterName, setFilterName] = useState("");
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Action
+                      </TableCell>
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === "asc";
-    if (id !== "") {
-      setOrder(isAsc ? "desc" : "asc");
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
-
-  const dataFiltered = applyFilter({
-    inputData: users,
-    comparator: getComparator(order, orderBy),
-    filterName,
-  });
-
-  const notFound = !dataFiltered.length && !!filterName;
+                      <TableCell align="right">
+                        <IconButton color="secondary" aria-label="add an alarm">
+                          <ClearIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
+    </>
+  );
+}
+export default function ResponsiveCollapsibleTable() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box
@@ -129,87 +142,36 @@ export default function UserPage() {
       <Container space={1} padding={2}>
         <Stack
           direction="row"
-         
           alignItems="center"
           justifyContent="space-between"
           mb={1}
         >
-          <Typography variant="h4">Users</Typography>
-
-          <Button
-            variant="contained"
-            color="inherit"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
+          <Button variant="contained" color="inherit">
             New User
           </Button>
         </Stack>
+        <TableContainer component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                {isMobile && <TableCell />}
+                <StyledTableCell>Company Name</StyledTableCell>
 
-        <Card>
-          <UserTableToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-
-          <Scrollbar>
-            <TableContainer sx={{ overflow: "unset" }}>
-              <Table sx={{ minWidth: 800 }}>
-                <UserTableHead
-                  order={order}
-                  orderBy={orderBy}
-                  rowCount={users.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleSort}
-                  onSelectAllClick={handleSelectAllClick}
-                  headLabel={[
-                    { id: "company", label: " Company Name" },
-                    { id: "location", label: " Location" },
-                    { id: "pnumber", label: "Phone Number" },
-                   
-                    { id: "role", label: "Role" },
-                    { id: "status" ,label: "Status"},
-                    { id: "action" ,label: "action"},
-                    { id: "" ,label: ""},
-                  ]}
-                />
-                <TableBody>
-                  {dataFiltered
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                      <UserTableRow
-                        key={row.id}
-                        name={row.name}
-                        role={row.role}
-                        status={row.status}
-                        company={row.company}
-                        isVerified={row.isVerified}
-                        selected={selected.indexOf(row.name) !== -1}
-                        handleClick={(event) => handleClick(event, row.name)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={77}
-                    emptyRows={emptyRows(page, rowsPerPage, users.length)}
-                  />
-
-                  {notFound && <TableNoData query={filterName} />}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-
-          <TablePagination
-            page={page}
-            component="div"
-            count={users.length}
-            rowsPerPage={rowsPerPage}
-            onPageChange={handleChangePage}
-            rowsPerPageOptions={[5, 10, 25]}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
+                {!isMobile && (
+                  <>
+                    <StyledTableCell>Phone Number</StyledTableCell>
+                    <StyledTableCell>Action</StyledTableCell>
+                  </>
+                )}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <CollapsibleRow key={row.name} row={row} isMobile={isMobile} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Container>
     </Box>
   );

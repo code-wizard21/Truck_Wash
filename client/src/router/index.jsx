@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { lazy } from "react";
 import PageLayout from "../components/layout";
-import { ROUTES_CONSTANTS } from "./rotueConstant";
+
 const Dashboard = lazy(() => import("../pages/client/dashboard"));
 const Login = lazy(() => import("../components/auth/Login"));
 const CheckTask = lazy(() => import("../pages/client/CheckoutPage"));
@@ -38,4 +38,3 @@ function RoutesDefined() {
   );
 }
 export default RoutesDefined;
-

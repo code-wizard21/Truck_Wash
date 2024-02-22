@@ -68,7 +68,7 @@ exports.acceptedItemCustom = async (req, res) => {
         State: "request",
       },
     });
-    console.log(customerlist)
+    console.log(customerlist);
     res.status(200).json(customerlist);
   } catch (err) {
     res.status(500).json({ message: err.message });

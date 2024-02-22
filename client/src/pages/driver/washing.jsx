@@ -17,7 +17,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-// ... Your rows data here
+
 function createData(cnumber, description, date, cname) {
   return { cnumber, description, date, cname };
 }
@@ -74,14 +74,14 @@ function CollapsibleRow({ row, isMobile }) {
         {!isMobile && (
           <>
             <TableCell>
-              {/* <div className="date"> */}
+          
               <span> {row.description}</span>
-              {/* </div> */}
+       
             </TableCell>
             <TableCell>
-              {/* <div className="date"> */}
+
               <span> {row.date}</span>
-              {/* </div> */}
+         
             </TableCell>
             <TableCell>
               <IconButton color="secondary" aria-label="add an alarm">

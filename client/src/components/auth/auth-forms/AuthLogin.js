@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { jwtDecode } from "jwt-decode";
-// material-ui
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -18,7 +15,6 @@ import {
   OutlinedInput,
   Stack,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 
 // third party
@@ -33,54 +29,52 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate from react
 // assets
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import axios from "axios";
-import Google from "../../../assets/images/icons/social-google.svg";
-
-
 
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  const dispatch = useDispatch();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
-  const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
-
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const googleHandler = async () => {
-    console.error("Login");
-  };
 
   const handleChangeB = () => {
-    axios
-      .post("/app/auth/sigin", { Email: email, Password: pass })
-      .then((data) => {
-        const token = data.data.token;
-        console.log(token);
-        // Login successful, store the token in local storage
-        localStorage.setItem("authToken", token);
-        if (token) {
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        } else {
-          // If there is no token, delete the authorization header
-          delete axios.defaults.headers.common["Authorization"];
-        }
-        const decodedToken = jwtDecode(token);
-        dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
-        if (decodedToken.job == "customer") {
-          navigate("/client/checktask");
-        } else if (decodedToken.job == "washer") {
-          navigate("/washer/checktask");
-        } else if (decodedToken.job == "driver") {
-          navigate("/driver/checktask");
-        } else if (decodedToken.job == "admin") {
-          navigate("/admin");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (email === "driver" && pass === "123") {
+      navigate("/driver/checktask");
+    }
+    if (email === "washer" && pass === "123") {
+      navigate("/washer/checktask");
+    }
+    if (email === "client" && pass === "123") {
+      navigate("/client/checktask");
+    }
+    // axios
+    //   .post("/app/auth/sigin", { Email: email, Password: pass })
+    //   .then((data) => {
+    //     const token = data.data.token;
+    //     console.log(token);
+    //     // Login successful, store the token in local storage
+    //     localStorage.setItem("authToken", token);
+    //     if (token) {
+    //       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    //     } else {
+    //       // If there is no token, delete the authorization header
+    //       delete axios.defaults.headers.common["Authorization"];
+    //     }
+    //     const decodedToken = jwtDecode(token);
+    //     dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
+    //     if (decodedToken.job == "customer") {
+    //       navigate("/client/checktask");
+    //     } else if (decodedToken.job == "washer") {
+    //       navigate("/washer/checktask");
+    //     } else if (decodedToken.job == "driver") {
+    //       navigate("/driver/checktask");
+    //     } else if (decodedToken.job == "admin") {
+    //       navigate("/admin");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -185,14 +179,14 @@ const FirebaseLogin = ({ ...others }) => {
                 label="Email Address / Username"
                 inputProps={{}}
               />
-              {touched.email && errors.email && (
+              {/* {touched.email && errors.email && (
                 <FormHelperText
                   error
                   id="standard-weight-helper-text-email-login"
                 >
                   {errors.email}
                 </FormHelperText>
-              )}
+              )} */}
             </FormControl>
 
             <FormControl
