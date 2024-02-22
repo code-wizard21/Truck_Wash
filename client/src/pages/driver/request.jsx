@@ -117,12 +117,9 @@ function CollapsibleRow({ row, isMobile }) {
                       </TableCell>
 
                       <TableCell align="right">
-
-<IconButton color="secondary" aria-label="add an alarm">
+                        <IconButton color="secondary" aria-label="add an alarm">
                           <CheckBoxIcon />
                         </IconButton>
-
-                    
                       </TableCell>
                     </TableRow>
                   </TableBody>

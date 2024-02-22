@@ -1,6 +1,5 @@
-
 import React from "react";
-import PropTypes from "prop-types";
+import { Grid } from "@mui/material";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,8 +12,6 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MainListItems from "./listItems";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -44,7 +41,6 @@ const styles = (theme) => ({
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-   
   },
   menuButton: {
     marginLeft: 12,
@@ -85,12 +81,11 @@ const styles = (theme) => ({
   chartContainer: {
     marginLeft: -22,
   },
-
   h5: {
     marginBottom: theme.spacing.unit * 2,
   },
 });
-class Admin  extends React.Component {
+class Admin extends React.Component {
   state = {
     open: true,
   };
@@ -105,23 +100,17 @@ class Admin  extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-    
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classNames(
-              classes.drawerPaper
-            ),
-          }}
-        >
-          <Divider />
-          <MainListItems />
-        </Drawer>
-        <Outlet/>
+        <Grid container>
+          <Grid item xs={12} sm={3}>
+            <MainListItems />
+          </Grid>
+
+          <Grid item xs={12} sm={9} className={classes.content}>
+            <Outlet />
+          </Grid>
+        </Grid>
       </div>
     );
   }
 }
-
-
 export default withStyles(styles)(Admin);
