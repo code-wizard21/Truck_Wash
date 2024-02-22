@@ -1,16 +1,26 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Tab, Box } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
 import Request from "./request";
-
+import axios from "axios";
+import { useSelector } from "react-redux";
 export default function LabTabs() {
-  const [value, setValue] = React.useState("1");
-
+  const [value, setValue] = useState("1");
+  const [cusData, setCusData] = useState([]);
+  const auth = useSelector((state) => state.auth);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  useEffect(() => {
+    axios
+      .post("/app/cus/findAllCustom", { name: auth.user.name })
+      .then((data) => {
+        setCusData(data.data);
+      })
+      .catch((err) => {});
+  }, []);
 
   return (
     <Box
@@ -21,7 +31,6 @@ export default function LabTabs() {
         // Add additional styling as needed here
       }}
     >
-
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList
@@ -44,7 +53,7 @@ export default function LabTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <Request />
+          <Request data={cusData} setData={setCusData} auth={auth} />
         </TabPanel>
         <TabPanel value="2">
           <Accept />
@@ -53,7 +62,6 @@ export default function LabTabs() {
           <Washing />
         </TabPanel>
       </TabContext>
-   
     </Box>
   );
 }

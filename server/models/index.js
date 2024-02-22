@@ -19,5 +19,5 @@ db.sequelize = sequelize;
 
 db.userlist = require("./model/user.model.js")(sequelize, Sequelize);
 db.customer = require("./model/customer.model.js")(sequelize, Sequelize);
-
+db.washlist = require("./model/washer.model.js")(sequelize, Sequelize);
 module.exports = db;

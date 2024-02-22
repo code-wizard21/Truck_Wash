@@ -43,10 +43,15 @@ exports.signin = async (req, res) => {
       return res.status(400).send({ error: "Invalid password" });
     }
     const token = jwt.sign(
-      {email: user.Email, birthday: user.Birthday, job: user.Job },
+      {
+        email: user.Email,
+        birthday: user.Birthday,
+        job: user.Job,
+        name: user.Name,
+      },
       "secret"
     );
-    console.log("token",token)
+    console.log("token", token);
     res.send({ token });
   } catch (err) {}
 };
