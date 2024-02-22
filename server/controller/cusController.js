@@ -1,18 +1,17 @@
 const db = require("../models");
-const Customer = db.customer;
+const Customerlist = db.customer;
 
-exports.Register = async (req, res) => {
+exports.Register = (req, res) => {
   console.log(req.body);
   const userlist = {
-    CustomerName: req.body.CustomerName,
-    PhoneNumber: req.body.PhoneNumber,
-    CarNumber: req.body.CarNumber,
-    Detail: req.body.Detail,
-    Date: req.body.Date,
-    State: "accept"
+    CustomerName: req.body.name,
+    CarNumber: req.body.cardNum,
+    Detail: req.body.detail,
+    Date: req.body.date,
+    State: "request",
   };
   // Save Tutorial in the database
-  Customer.create(userlist)
+  Customerlist.create(userlist)
     .then((data) => {
       res.send(data);
     })
@@ -22,4 +21,56 @@ exports.Register = async (req, res) => {
           err.message || "Some error occurred while creating the userlist.",
       });
     });
+};
+
+exports.findAllCustom = async (req, res) => {
+  console.log(req.body);
+  const customerlist = await Customerlist.findAll({
+    where: {
+      CustomerName: req.body.name,
+    },
+  });
+
+  res.send(customerlist);
+};
+exports.deleteItemCustom = async (req, res) => {
+  console.log(req.body);
+  const id = req.body.id;
+  try {
+    const user = await Customerlist.destroy({
+      where: {
+        id: id,
+      },
+    });
+    const customerlist = await Customerlist.findAll({
+      where: {
+        CustomerName: req.body.name,
+      },
+    });
+    res.status(200).json(customerlist);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+exports.acceptedItemCustom = async (req, res) => {
+  // console.log(req.body)
+  try {
+    const user = await Customerlist.update(
+      { State: "accepted" },
+      {
+        where: {
+          CarNumber: req.body.carnumber,
+        },
+      }
+    );
+    const customerlist = await Customerlist.findAll({
+      where: {
+        State: "request",
+      },
+    });
+    console.log(customerlist);
+    res.status(200).json(customerlist);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

@@ -1,9 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-  const Userlist = sequelize.define("customer", {
+  const Customerlist = sequelize.define("customer", {
     CustomerName: {
-      type: Sequelize.STRING,
-    },
-    PhoneNumber: {
       type: Sequelize.STRING,
     },
     CarNumber: {
@@ -20,5 +17,5 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  return Userlist;
+  return Customerlist;
 };
