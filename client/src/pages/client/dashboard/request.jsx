@@ -17,23 +17,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-// ... Your rows data here
-function createData(cnumber, description, date) {
-  return { cnumber, description, date };
-}
-const rows = [
-  createData("3532525", "Wash the car", "2024-10-12"),
-  createData("3532525", "Wash the car", "2024-10-12"),
-  createData("3532525", "Wash the car", "2024-10-12"),
-  createData("3532525", "Wash the car", "2024-10-12"),
-];
-
+import axios from "axios";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: 'white',
-    color: 'black',
-    fontWeight:'bold',
-    fontSize:'18px'
+    backgroundColor: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "18px",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -50,10 +40,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-function CollapsibleRow({ row, isMobile }) {
+function CollapsibleRow({ props, row, isMobile }) {
   const [open, setOpen] = useState(false);
+  const onDelete = (data) => {
+    console.log(data);
+    axios
+      .post("/app/cus/deleteItemCustom", {
+        id: data,
+        name: props.auth.user.name,
+      })
+      .then((data) => {
+        props.setData(data.data);
+      })
+      .catch((err) => {});
+  };
   return (
     <>
       <StyledTableRow
@@ -69,19 +69,23 @@ function CollapsibleRow({ row, isMobile }) {
         )}
         <TableCell component="th" scope="row">
           <div className="accept">
-            <span> {row.cnumber}</span>
+            <span> {row.CarNumber}</span>
           </div>
         </TableCell>
-        <TableCell>{row.description}</TableCell>
+        <TableCell>{row.Detail}</TableCell>
         {!isMobile && (
           <>
             <TableCell>
               {/* <div className="date"> */}
-              <span> {row.date}</span>
+              <span> {row.Date}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
-              <IconButton color="secondary" aria-label="add an alarm">
+              <IconButton
+                color="secondary"
+                aria-label="add an alarm"
+                onClick={() => onDelete(row.id)}
+              >
                 <ClearIcon />
               </IconButton>
             </TableCell>
@@ -107,7 +111,11 @@ function CollapsibleRow({ row, isMobile }) {
                       </TableCell>
 
                       <TableCell align="right">
-                        <IconButton color="secondary" aria-label="add an alarm">
+                        <IconButton
+                          color="secondary"
+                          aria-label="add an alarm"
+                          onClick={() => onDelete(row.id)}
+                        >
                           <ClearIcon />
                         </IconButton>
                       </TableCell>
@@ -122,10 +130,11 @@ function CollapsibleRow({ row, isMobile }) {
     </>
   );
 }
-export default function ResponsiveCollapsibleTable() {
+export default function ResponsiveCollapsibleTable(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const { data } = props;
+  console.log(data);
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -143,8 +152,13 @@ export default function ResponsiveCollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <CollapsibleRow key={row.name} row={row} isMobile={isMobile} />
+          {data.map((row) => (
+            <CollapsibleRow
+              props={props}
+              key={row.id}
+              row={row}
+              isMobile={isMobile}
+            />
           ))}
         </TableBody>
       </Table>

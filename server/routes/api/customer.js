@@ -4,6 +4,7 @@ const router = express.Router();
 const cusController = require("../../controller/cusController");
 
 router.post("/register", cusController.Register);
-// router.post("/sigin", authController.signin);
-
+router.post("/findAllCustom", cusController.findAllCustom);
+router.post("/deleteItemCustom", cusController.deleteItemCustom);
+router.post("/acceptedItemCustom", cusController.acceptedItemCustom);
 module.exports = router;

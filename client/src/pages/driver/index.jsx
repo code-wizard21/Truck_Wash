@@ -1,18 +1,34 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Container, Tab, Box } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
 import Request from "./request";
 import MyPlan from "./myplan";
-
+import axios from "axios";
 export default function LabTabs() {
-  const [value, setValue] = React.useState("1");
-
+  const [value, setValue] = useState("1");
+  const [cusList, setCusList] = useState([]);
+  const auth = useSelector((state) => state.auth);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!auth.isLoggedIn) {
+      navigate("/");
+    }
+  }, []);
+  useEffect(() => {
+    axios
+      .get("/app/driv/getAllRequest")
+      .then((data) => {
+        setCusList(data.data);
+      })
+      .catch((err) => {});
+  }, []);
   return (
     <Box
       component="main"
@@ -44,7 +60,7 @@ export default function LabTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <Request />
+          <Request data = {cusList} setdata = {setCusList}/>
         </TabPanel>
         <TabPanel value="2">
           <Accept />

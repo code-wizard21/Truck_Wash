@@ -1,16 +1,23 @@
 import React, { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
 import RoutesDefined from "./router";
 import { Provider } from "react-redux";
-import  store  from "./redux/store";
+import store from "./redux/store";
+import { jwtDecode } from "jwt-decode";
 
-function App() {
+const localstorage = localStorage.getItem("authToken");
+if (localstorage) {
+  const decodedToken = jwtDecode(localstorage);
+  store.dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
+}
+
+const App = () => {
   const [flag, setFlag] = useState(false);
+
   return (
     <Provider store={store}>
       <RoutesDefined />
     </Provider>
   );
-}
+};
 
 export default App;

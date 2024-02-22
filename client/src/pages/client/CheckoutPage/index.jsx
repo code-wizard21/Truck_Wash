@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -14,20 +15,43 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
-
+import axios from "axios";
+import moment from "moment";
 function CheckoutPage() {
   const [trackCode, setTrackCode] = useState("");
+  const [description, setDescription] = useState("");
   const [showErrors, setShowErrors] = useState(false);
   const [date, setDate] = useState(null);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (!auth.isLoggedIn) {
+      navigate("/");
+    }
+  }, []);
   const validate = () => {
-    if (!trackCode)  {
+    if (!trackCode && !description) {
       setShowErrors(true);
-      console.log(trackCode);
     } else {
       setShowErrors(false);
-      navigate("/client/dashboard");
+
+      axios
+        .post("/app/cus/register", {
+          name: auth.user.name,
+          cardNum: trackCode,
+          detail: description,
+          date: date,
+        })
+        .then((data) => {
+          console.log(data);
+          if (data.data) {
+            navigate("/client/dashboard");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (
@@ -44,7 +68,6 @@ function CheckoutPage() {
         </Typography>
 
         <Grid container spacing={3}>
-
           <Grid item xs={12} sm={12}>
             <TextField
               error={!trackCode && showErrors}
@@ -64,6 +87,8 @@ function CheckoutPage() {
               label="Tell us the details of your task"
               multiline
               id="standard-basic"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               minRows={2}
               fullWidth
             />

@@ -1,4 +1,4 @@
-import  { AuthTypes }  from "../types";
+import { AuthTypes } from "../types";
 
 const initialState = {
   user: {},
@@ -13,10 +13,10 @@ const AuthReducer = (state = initialState, action) => {
     case AuthTypes.LOGIN_REQUEST:
       return {
         ...state,
-        user: {},
+        user: action.payload,
         isLoading: true,
         errorMessage: "",
-        isLoggedIn: false,
+        isLoggedIn: true,
       };
     // case AuthTypes.SIGNUP_REQUEST:
     //   return {
@@ -50,13 +50,13 @@ const AuthReducer = (state = initialState, action) => {
     //     errorMessage: action.error.message,
     //     isLoggedIn: false,
     //   };
-    // case AuthTypes.LOGOUT_REQUEST:
-    //   return {
-    //     ...state,
-    //     user: {},
-    //     errorMessage: "",
-    //     isLoggedIn: false,
-    //   };
+    case AuthTypes.LOGOUT_REQUEST:
+      return {
+        ...state,
+        user: {},
+        errorMessage: "",
+        isLoggedIn: false,
+      };
     // case AuthTypes.TOGGLE_LOADING:
     //   return {
     //     ...state,
