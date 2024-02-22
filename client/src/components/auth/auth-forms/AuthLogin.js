@@ -25,10 +25,13 @@ import { Formik } from "formik";
 import useScriptRef from "../../../hooks/useScriptRef";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
-
-// assets
+import { jwtDecode } from "jwt-decode";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import Google from "../../../assets/images/icons/social-google.svg";
+import Http from "../../../utils/http";
 
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
@@ -36,7 +39,7 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
+const dispatch = useDispatch();
   const handleChangeB = () => {
     if (email === "driver" && pass === "123") {
       navigate("/driver/checktask");
@@ -47,34 +50,34 @@ const FirebaseLogin = ({ ...others }) => {
     if (email === "client" && pass === "123") {
       navigate("/client/checktask");
     }
-    // axios
-    //   .post("/app/auth/sigin", { Email: email, Password: pass })
-    //   .then((data) => {
-    //     const token = data.data.token;
-    //     console.log(token);
-    //     // Login successful, store the token in local storage
-    //     localStorage.setItem("authToken", token);
-    //     if (token) {
-    //       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-    //     } else {
-    //       // If there is no token, delete the authorization header
-    //       delete axios.defaults.headers.common["Authorization"];
-    //     }
-    //     const decodedToken = jwtDecode(token);
-    //     dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
-    //     if (decodedToken.job == "customer") {
-    //       navigate("/client/checktask");
-    //     } else if (decodedToken.job == "washer") {
-    //       navigate("/washer/checktask");
-    //     } else if (decodedToken.job == "driver") {
-    //       navigate("/driver/checktask");
-    //     } else if (decodedToken.job == "admin") {
-    //       navigate("/admin");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .post("/api/auth/sigin", { Email: email, Password: pass })
+      .then((data) => {
+        const token = data.data.token;
+        console.log(token);
+        // Login successful, store the token in local storage
+        localStorage.setItem("authToken", token);
+        if (token) {
+          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        } else {
+          // If there is no token, delete the authorization header
+          delete axios.defaults.headers.common["Authorization"];
+        }
+        const decodedToken = jwtDecode(token);
+        dispatch({ type: "LOGIN_REQUEST", payload: decodedToken });
+        if (decodedToken.job == "customer") {
+          navigate("/client/checktask");
+        } else if (decodedToken.job == "washer") {
+          navigate("/washer/checktask");
+        } else if (decodedToken.job == "driver") {
+          navigate("/driver/checktask");
+        } else if (decodedToken.job == "admin") {
+          navigate("/admin");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const [showPassword, setShowPassword] = useState(false);

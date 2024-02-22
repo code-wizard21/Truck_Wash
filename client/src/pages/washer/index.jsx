@@ -6,10 +6,13 @@ import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
 import Request from "./request";
-import axios from "axios";
+// import axios from "axios";
+import Http from "../../utils/http";
 export default function LabTabs() {
   const [value, setValue] = useState("1");
   const [cusList, setCusList] = useState([]);
+  const [cusAccepted, setCusAccepted] = useState([]);
+  const [flag, setFlag] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -21,13 +24,17 @@ export default function LabTabs() {
     // }
   }, []);
   useEffect(() => {
-    axios
-      .get("/app/wash/getAllList")
+    Http.get("/api/wash/getAllList")
       .then((data) => {
         setCusList(data.data);
       })
       .catch((err) => {});
-  }, []);
+    Http.post("/api/wash/getAcceptList", { name: auth.user.name })
+      .then((data) => {
+        setCusAccepted(data.data);
+      })
+      .catch((err) => {});
+  }, [flag]);
 
   return (
     <Box
@@ -56,18 +63,24 @@ export default function LabTabs() {
           >
             <Tab label="Requested" value="1" />
             <Tab label="Accepted" value="2" />
-            {/* <Tab label="Washed " value="3" /> */}
+            <Tab label="Washed " value="3" />
           </TabList>
         </Box>
         <TabPanel value="1">
-          <Request  data = {cusList} setData = {setCusList} auth={auth}/>
+          <Request
+            flag={flag}
+            setFlag={setFlag}
+            data={cusList}
+            setData={setCusList}
+            auth={auth}
+          />
         </TabPanel>
         <TabPanel value="2">
-          <Accept />
+          <Accept data={cusAccepted} setData={setCusAccepted} auth={auth} />
         </TabPanel>
-        {/* <TabPanel value="3">
+        <TabPanel value="3">
           <Washing />
-        </TabPanel> */}
+        </TabPanel>
       </TabContext>
     </Box>
   );

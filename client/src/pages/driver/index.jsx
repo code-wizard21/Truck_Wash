@@ -4,8 +4,9 @@ import { TabPanel, TabContext, TabList } from "@mui/lab";
 import Accept from "./accecpint";
 import Washing from "./washing";
 import Request from "./request";
-import axios from "axios";
 
+// import axios from "axios";
+import Http from "../../utils/http";
 export default function LabTabs() {
   const [value, setValue] = useState("1");
   const [cusList, setCusList] = useState([]);
@@ -20,8 +21,8 @@ export default function LabTabs() {
     // }
   }, []);
   useEffect(() => {
-    axios
-      .get("/app/driv/getAllRequest")
+    Http
+      .get("/api/driv/getAllAccepted")
       .then((data) => {
         setCusList(data.data);
       })
@@ -54,16 +55,16 @@ export default function LabTabs() {
               },
             }}
           >
-            <Tab label="Requested" value="1" />
+            {/* <Tab label="Requested" value="1" /> */}
             <Tab label="Accepted" value="2" />
             <Tab label="Washed" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1">
+        {/* <TabPanel value="1">
           <Request data = {cusList} setdata = {setCusList}/>
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel value="2">
-          <Accept />
+          <Accept data={cusList} />
         </TabPanel>
         <TabPanel value="3">
           <Washing />

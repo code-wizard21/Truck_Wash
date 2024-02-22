@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -14,20 +14,12 @@ import {
 } from "@mui/material";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import ClearIcon from "@mui/icons-material/Clear";
+import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import axios from "axios";
+// import axios from "axios";
 // ... Your rows data here
-function createData(cnumber, description, date, cname) {
-  return { cnumber, description, date, cname };
-}
-const rows = [
-  createData("3532525", "Wash the car", "2024-10-12", "Company1"),
-  createData("3532525", "Wash the car", "2024-10-12", "Company2"),
-  createData("3532525", "Wash the car", "2024-10-12", "Company3"),
-  createData("3532525", "Wash the car", "2024-10-12", "Company4"),
-];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +45,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function CollapsibleRow({ row, isMobile }) {
   const [open, setOpen] = useState(false);
+  const onWashed = (data) => {
+    console.log(data)
+  }
   return (
     <>
       <StyledTableRow
@@ -68,23 +63,26 @@ function CollapsibleRow({ row, isMobile }) {
         )}
         <TableCell component="th" scope="row">
           <div className="accept">
-            <span> {row.cnumber}</span>
+            <span> {row.CarNumber}</span>
           </div>
         </TableCell>
-        <TableCell>{row.cname}</TableCell>
+        <TableCell>{row.CustomerName}</TableCell>
         {!isMobile && (
           <>
             <TableCell>
               {/* <div className="date"> */}
-              <span> {row.description}</span>
+              <span> {row.Detail}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
               {/* <div className="date"> */}
-              <span> {row.date}</span>
+              <span> {row.Date}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
+              <IconButton color="secondary" aria-label="add an alarm" onClick={() => onWashed(row.CarNumber)}>
+                <CheckIcon />
+              </IconButton>
               <IconButton color="secondary" aria-label="add an alarm">
                 <ClearIcon />
               </IconButton>
@@ -103,13 +101,13 @@ function CollapsibleRow({ row, isMobile }) {
                       <TableCell component="th" scope="row">
                         Description
                       </TableCell>
-                      <TableCell align="right">{row.description}</TableCell>
+                      <TableCell align="right">{row.Detail}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row">
                         Date
                       </TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{row.Date}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row">
@@ -117,6 +115,9 @@ function CollapsibleRow({ row, isMobile }) {
                       </TableCell>
 
                       <TableCell align="right">
+                        <IconButton color="secondary" aria-label="add an alarm">
+                          <CheckIcon />
+                        </IconButton>
                         <IconButton color="secondary" aria-label="add an alarm">
                           <ClearIcon />
                         </IconButton>
@@ -132,7 +133,7 @@ function CollapsibleRow({ row, isMobile }) {
     </>
   );
 }
-export default function ResponsiveCollapsibleTable() {
+export default function ResponsiveCollapsibleTable(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -154,8 +155,8 @@ export default function ResponsiveCollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <CollapsibleRow key={row.name} row={row} isMobile={isMobile} />
+          {props.data.map((row) => (
+            <CollapsibleRow key={row.id} row={row} isMobile={isMobile} />
           ))}
         </TableBody>
       </Table>

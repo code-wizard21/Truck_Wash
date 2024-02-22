@@ -18,7 +18,8 @@ import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CheckIcon from "@mui/icons-material/Check";
-import axios from "axios";
+// import axios from "axios";
+import Http from "../../utils/http";
 // ... Your rows data here
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -47,14 +48,13 @@ function CollapsibleRow({ props, row, isMobile }) {
   const [open, setOpen] = useState(false);
   const onAccepted = (data) => {
     console.log(data);
-    axios
-      .post("/app/cus/acceptedItemCustom", {
-    
-        name: props.auth.user.name,
-        carnumber: data
-      })
+    Http.post("/api/cus/acceptedItemCustom", {
+      name: props.auth.user.name,
+      carnumber: data,
+    })
       .then((data) => {
         props.setData(data.data);
+        props.setFlag(true);
       })
       .catch((err) => {});
   };

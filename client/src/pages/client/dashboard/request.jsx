@@ -17,8 +17,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import axios from "axios";
-
+// import axios from "axios";
+import Http from "../../../utils/http";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "white",
@@ -45,11 +45,10 @@ function CollapsibleRow({ props, row, isMobile }) {
   const [open, setOpen] = useState(false);
   const onDelete = (data) => {
     console.log(data);
-    axios
-      .post("/app/cus/deleteItemCustom", {
-        id: data,
-        name: props.auth.user.name,
-      })
+    Http.post("/api/cus/deleteItemCustom", {
+      id: data,
+      name: props.auth.user.name,
+    })
       .then((data) => {
         props.setData(data.data);
       })

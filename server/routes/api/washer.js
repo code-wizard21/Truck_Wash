@@ -5,6 +5,7 @@ const washController = require("../../controller/washController");
 
 router.post("/register", washController.Register);
 router.get("/getAllList", washController.getAllList);
-// router.post("/sigin", authController.signin);
+router.post("/getAcceptList", washController.getAcceptList);
+
 
 module.exports = router;
