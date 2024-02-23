@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import ClearIcon from "@mui/icons-material/Clear";
+import CheckBoxIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -77,7 +78,7 @@ function CollapsibleRow({ row, isMobile }) {
             </TableCell>
             <TableCell>
               <IconButton color="secondary" aria-label="add an alarm">
-                <ClearIcon />
+                <CheckBoxIcon />
               </IconButton>
             </TableCell>
           </>
@@ -109,7 +110,7 @@ function CollapsibleRow({ row, isMobile }) {
 
                       <TableCell align="right">
                         <IconButton color="secondary" aria-label="add an alarm">
-                          <ClearIcon />
+                          <CheckBoxIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>

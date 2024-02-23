@@ -41,16 +41,16 @@ const FirebaseLogin = ({ ...others }) => {
   const [pass, setPass] = useState("");
 const dispatch = useDispatch();
   const handleChangeB = () => {
-    if (email === "driver" && pass === "123") {
-      navigate("/driver/checktask");
-    }
-    if (email === "washer" && pass === "123") {
-      navigate("/washer/checktask");
-    }
-    if (email === "client" && pass === "123") {
-      navigate("/client/checktask");
-    }
-    axios
+    // if (email === "driver" && pass === "123") {
+    //   navigate("/driver/checktask");
+    // }
+    // if (email === "washer" && pass === "123") {
+    //   navigate("/washer/checktask");
+    // }
+    // if (email === "client" && pass === "123") {
+    //   navigate("/client/checktask");
+    // }
+    Http
       .post("/api/auth/sigin", { Email: email, Password: pass })
       .then((data) => {
         const token = data.data.token;

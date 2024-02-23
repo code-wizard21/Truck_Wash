@@ -12,7 +12,7 @@ exports.Register = (req, res) => {
   };
   // Save Tutorial in the database
   Customerlist.create(userlist)
-    .then( async (data) => {
+    .then(async (data) => {
       const customer = await Customerlist.findAll({
         where: {
           CustomerName: req.body.name,
@@ -33,7 +33,7 @@ exports.findAllCustom = async (req, res) => {
   const customerlist = await Customerlist.findAll({
     where: {
       CustomerName: req.body.name,
-      State: "request"
+      State: "request",
     },
   });
 
@@ -80,14 +80,13 @@ exports.acceptedItemCustom = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-exports.findAcceptCustom = async (req,res) => {
-  console.log(req.body)
+exports.findAcceptCustom = async (req, res) => {
   const customerlist = await Customerlist.findAll({
     where: {
       CustomerName: req.body.name,
-      State: "accepted"
+      State: "accepted",
     },
   });
 
   res.send(customerlist);
-}
+};

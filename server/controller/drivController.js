@@ -12,3 +12,12 @@ exports.getAllAccepted = async (req,res) => {
 
   res.send(customerlist);
 };
+exports.getAllWashed = async (req,res) => {
+  const customerlist = await Customerlist.findAll({
+    where: {
+      State: "washed",
+    },
+  });
+
+res.send(customerlist);
+}
