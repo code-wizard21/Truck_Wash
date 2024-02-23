@@ -10,6 +10,7 @@ import Http from "../../utils/http";
 export default function LabTabs() {
   const [value, setValue] = useState("1");
   const [cusList, setCusList] = useState([]);
+  const [cusWashed, setCusWashed] = useState([]);
   // const auth = useSelector((state) => state.auth);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -21,10 +22,17 @@ export default function LabTabs() {
     // }
   }, []);
   useEffect(() => {
-    Http
-      .get("/api/driv/getAllAccepted")
+    Http.get("/api/driv/getAllAccepted")
       .then((data) => {
         setCusList(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    Http.get("/api/driv/getAllWashed")
+      .then((data) => {
+        setCusWashed(data.data);
+        // setCusList(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -36,7 +44,7 @@ export default function LabTabs() {
       component="main"
       sx={{
         flexGrow: 1,
-        py: { xs: 2, sm: 4, md: 6, lg: 8 }, 
+        py: { xs: 2, sm: 4, md: 6, lg: 8 },
       }}
     >
       <TabContext value={value}>
@@ -47,11 +55,9 @@ export default function LabTabs() {
             allowScrollButtonsMobile
             sx={{
               "& .MuiTab-root": {
-             
-                fontSize: { sm: "0.875rem", md: "1rem" }, 
+                fontSize: { sm: "0.875rem", md: "1rem" },
                 minWidth: 0,
-                padding: { sm: "6px 12px", md: "8px 16px" }, 
-  
+                padding: { sm: "6px 12px", md: "8px 16px" },
               },
             }}
           >
@@ -67,7 +73,7 @@ export default function LabTabs() {
           <Accept data={cusList} />
         </TabPanel>
         <TabPanel value="3">
-          <Washing />
+          <Washing data={cusWashed} />
         </TabPanel>
       </TabContext>
     </Box>

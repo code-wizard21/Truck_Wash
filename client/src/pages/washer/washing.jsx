@@ -67,20 +67,20 @@ function CollapsibleRow({ row, isMobile }) {
         )}
         <TableCell component="th" scope="row">
           <div className="accept">
-            <span> {row.cnumber}</span>
+            <span> {row.CarNumber}</span>
           </div>
         </TableCell>
-        <TableCell>{row.cname}</TableCell>
+        <TableCell>{row.CustomerName}</TableCell>
         {!isMobile && (
           <>
             <TableCell>
               {/* <div className="date"> */}
-              <span> {row.description}</span>
+              <span> {row.Detail}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
               {/* <div className="date"> */}
-              <span> {row.date}</span>
+              <span> {row.Date}</span>
               {/* </div> */}
             </TableCell>
             <TableCell>
@@ -102,7 +102,7 @@ function CollapsibleRow({ row, isMobile }) {
                       <TableCell component="th" scope="row">
                         Description
                       </TableCell>
-                      <TableCell align="right">{row.description}</TableCell>
+                      <TableCell align="right">{row.Detail}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row">
@@ -131,7 +131,7 @@ function CollapsibleRow({ row, isMobile }) {
     </>
   );
 }
-export default function ResponsiveCollapsibleTable() {
+export default function ResponsiveCollapsibleTable(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -153,8 +153,8 @@ export default function ResponsiveCollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <CollapsibleRow key={row.name} row={row} isMobile={isMobile} />
+          {props.data.map((row) => (
+            <CollapsibleRow key={row.id} row={row} isMobile={isMobile} />
           ))}
         </TableBody>
       </Table>

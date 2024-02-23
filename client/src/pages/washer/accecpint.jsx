@@ -18,6 +18,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Http from "../../utils/http";
 // import axios from "axios";
 // ... Your rows data here
 
@@ -43,11 +44,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function CollapsibleRow({ row, isMobile }) {
+function CollapsibleRow({ props, row, isMobile }) {
   const [open, setOpen] = useState(false);
   const onWashed = (data) => {
-    console.log(data)
-  }
+    console.log(data);
+    Http.post("/api/wash/setSelectWashed", { id: data })
+      .then((data) => {
+        // props.setCusWashed(data.data);
+        props.setFlag(!props.flag);
+      })
+      .catch((err) => {});
+  };
   return (
     <>
       <StyledTableRow
@@ -80,7 +87,11 @@ function CollapsibleRow({ row, isMobile }) {
               {/* </div> */}
             </TableCell>
             <TableCell>
-              <IconButton color="secondary" aria-label="add an alarm" onClick={() => onWashed(row.CarNumber)}>
+              <IconButton
+                color="secondary"
+                aria-label="add an alarm"
+                onClick={() => onWashed(row.CarNumber)}
+              >
                 <CheckIcon />
               </IconButton>
               <IconButton color="secondary" aria-label="add an alarm">
@@ -156,7 +167,7 @@ export default function ResponsiveCollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
-            <CollapsibleRow key={row.id} row={row} isMobile={isMobile} />
+            <CollapsibleRow props={props} key={row.id} row={row} isMobile={isMobile} />
           ))}
         </TableBody>
       </Table>

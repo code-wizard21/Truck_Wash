@@ -12,6 +12,7 @@ export default function LabTabs() {
   const [value, setValue] = useState("1");
   const [cusList, setCusList] = useState([]);
   const [cusAccepted, setCusAccepted] = useState([]);
+  const [cusWashed, setCusWashed] = useState([]);
   const [flag, setFlag] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,6 +33,11 @@ export default function LabTabs() {
     Http.post("/api/wash/getAcceptList", { name: auth.user.name })
       .then((data) => {
         setCusAccepted(data.data);
+      })
+      .catch((err) => {});
+    Http.get("/api/wash/getAllWashed")
+      .then((data) => {
+        setCusWashed(data.data);
       })
       .catch((err) => {});
   }, [flag]);
@@ -76,10 +82,18 @@ export default function LabTabs() {
           />
         </TabPanel>
         <TabPanel value="2">
-          <Accept data={cusAccepted} setData={setCusAccepted} auth={auth} />
+          <Accept
+            data={cusAccepted}
+            setData={setCusAccepted}
+            cusWashed={cusWashed}
+            setCusWashed={setCusWashed}
+            flag={flag}
+            setFlag={setFlag}
+            auth={auth}
+          />
         </TabPanel>
         <TabPanel value="3">
-          <Washing />
+          <Washing data={cusWashed} setData={setCusWashed} auth={auth} />
         </TabPanel>
       </TabContext>
     </Box>
